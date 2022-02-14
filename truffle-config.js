@@ -10,9 +10,7 @@ module.exports = {
   networks: {
     kovan: {
       provider: () => 
-        new provider(
-          secrets.privateKey,
-          secrets.infuraApi,
+        new provider(secrets.privateKey, secrets.infuraApi,
           0,
           1
         ),
