@@ -7,3 +7,9 @@ A **trading platform** to create Market Orders and Limit Orders for ERC20 coins.
 ## Tech Stack ⚙️
 
 Solidity | React | [Truffle](https://trufflesuite.com/) | [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) | [Bootstrap](https://getbootstrap.com/) | [ReCharts](https://recharts.org/en-US)
+
+## Features
+
+### Connects with Metamask
+
+![ConnectToMetamask](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/ConnectToMetamask.gif)
