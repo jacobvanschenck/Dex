@@ -36,4 +36,4 @@ Solidity | React | [Truffle](https://trufflesuite.com/) | [OpenZeppelin](https:/
 
 ## Feedback 🤝
 
-Do you have any suggestions for code or additional features you'd like to see implemented? Hit me up on [Twitter](https://twitter.com/JacobVanSchenck)
+Do you have any suggestions for code or additional features you'd like to see implemented? Hit me up on [Twitter](https://twitter.com/JacobVanSchenck) ![twitter icon](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/twitter.svg)
