@@ -2,7 +2,7 @@
 
 ![MyDexScreenShot](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/MyDex.png)
 
-A **Decentrailized Exchange** for creating Market Orders and Limit Orders for ERC20 coins. Here is the app running on the [Kovan network](https://dex-vs.netlify.app/)
+A **trading platform** to create Market Orders and Limit Orders for ERC20 coins. Here is the app running on the [Kovan network](https://dex-vs.netlify.app/)
 
 ## Tech Stack ⚙️
 
