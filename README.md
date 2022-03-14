@@ -49,7 +49,7 @@ cd client/
 npm run start
 ```
 
-Head over to `http://localhost:3000` and start using Multisig Wallet!
+Head over to `http://localhost:3000` and start using MyDex!
 
 > Note: Make sure to add the Ganache network to your Metamask
 
