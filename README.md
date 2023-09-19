@@ -90,3 +90,16 @@ Head over to `http://localhost:3000` and start using MyDex!
 ## Feedback 🤝
 
 Do you have any suggestions for code or additional features you'd like to see implemented? Hit me up on [Twitter](https://twitter.com/JacobVanSchenck)
+
+### Contract Deployments 🔗
+
+```
+Sepolia Testnet
+
+Dex: 0xe3B970200669bB3258886e0a8E5c97504d93ba31
+Dai: 0x2487fC2B8c785E57D9752ABFD8E9a6696DEebb1C
+Bat: 0x0DcC9f27a42a19d9b4dd3cf25A591DB030aB820A
+Rep: 0x58dfd3A9C6Cf1072E5A3A9D800E2aD47dD0327c8
+Zrx: 0x6b65E74E68CaF377636e439B71f7D62d71F53cAe
+
+```
