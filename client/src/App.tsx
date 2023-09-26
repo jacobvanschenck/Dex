@@ -6,13 +6,19 @@ import NewOrder from './NewOrder.js'
 import AllOrders from './AllOrders.js'
 import MyOrders from './MyOrders.js'
 import AllTrades from './AllTrades.js'
+import { Address, PublicClient } from 'viem'
+
+type AppProps = {
+    accounts: Array<Address>
+    publicClient: PublicClient
+}
 
 const SIDE = {
     BUY: 0,
     SELL: 1,
 }
 
-function App({ web3, accounts, contracts }) {
+function App({ accounts, publicClient }: AppProps) {
     const [tokens, setTokens] = useState([])
     const [user, setUser] = useState({
         accounts: [],

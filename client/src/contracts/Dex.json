@@ -1,6 +1,4 @@
-{
-  "contractName": "Dex",
-  "abi": [
+export const DexAbi = [
     {
       "inputs": [],
       "stateMutability": "nonpayable",
@@ -36223,18 +36221,4 @@
       "address": "0x9d295ed522CE617747f7AA1A980c260D9eE9BAA6",
       "transactionHash": "0x7c29dcb60f98e9a75514097b9b584b38d12f70e95dabfacbf90d9f536097d859"
     }
-  },
-  "schemaVersion": "3.4.4",
-  "updatedAt": "2022-02-08T13:56:04.759Z",
-  "networkType": "ethereum",
-  "devdoc": {
-    "kind": "dev",
-    "methods": {},
-    "version": 1
-  },
-  "userdoc": {
-    "kind": "user",
-    "methods": {},
-    "version": 1
-  }
 }
