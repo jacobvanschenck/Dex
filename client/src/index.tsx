@@ -1,5 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import LoadingContainer from './LoadingContainer'
+import { createRoot } from 'react-dom/client';
+import LoadingContainer from './LoadingContainer';
+import './index.css';
 
-ReactDOM.render(<LoadingContainer />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root'));
+root.render(<LoadingContainer />);

@@ -6,7 +6,7 @@ export type ConnectWalletProps = {
 
 export default function ConnectWallet({ connectWallet }: ConnectWalletProps) {
     return (
-        <div className="w-screen h-screen bg-slate-50 flex flex-col items-center pt-12">
+        <div className="flex flex-col items-center pt-12 w-screen h-screen bg-slate-50">
             <PrimaryButton action={connectWallet}>
                 Connect Metamask
             </PrimaryButton>

@@ -1,41 +1,42 @@
-import React from 'react'
-import Dropdown from './Dropdown'
+import { Dispatch, SetStateAction } from 'react';
+import Dropdown from './Dropdown';
+import { DexContract, TokenStructType } from './utils';
 
-function Header({ user, tokens, contracts, selectToken }) {
-    // console.log(user)
-    // console.log(tokens)
-    // console.log(contracts)
-    // console.log(selectToken)
-    return (
-        <header id="header" className="card">
-            <div className="row">
-                <div className="col-sm-3 flex">
-                    <Dropdown
-                        items={tokens.map((token) => ({
-                            label: token.ticker,
-                            value: token,
-                        }))}
-                        activeItem={{
-                            label: user.selectedToken.ticker,
-                            value: user.selectedToken,
-                        }}
-                        onSelect={selectToken}
-                    />
-                </div>
-                <div className="col-sm-9">
-                    <h1 className="header-title">
-                        Dex -{' '}
-                        <span className="contract-address">
-                            Contract Address:{' '}
-                            <span className="address">
-                                {contracts.dex.options.address}
-                            </span>
-                        </span>
-                    </h1>
-                </div>
-            </div>
-        </header>
-    )
+type HeaderProps = {
+  selectedToken: TokenStructType;
+  setSelectedToken: Dispatch<SetStateAction<TokenStructType>>;
+  tokens: Array<TokenStructType>;
+  dex: DexContract;
+};
+
+function Header({ tokens, dex, selectedToken, setSelectedToken }: HeaderProps) {
+  return (
+    <header>
+      <div>
+        <div>
+          <Dropdown
+            items={tokens.map((token) => ({
+              label: token.ticker,
+              value: token,
+            }))}
+            activeItem={{
+              label: selectedToken.ticker,
+              value: selectedToken,
+            }}
+            onSelect={setSelectedToken}
+          />
+        </div>
+        <div className="col-sm-9">
+          <h1 className="header-title">
+            Dex -
+            <span className="contract-address">
+              Contract Address: <span className="address">{dex.address}</span>
+            </span>
+          </h1>
+        </div>
+      </div>
+    </header>
+  );
 }
 
-export default Header
+export default Header;

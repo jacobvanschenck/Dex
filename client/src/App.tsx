@@ -1,220 +1,198 @@
-import React, { useState, useEffect } from 'react'
-import Header from './Header.js'
-import Footer from './Footer.js'
-import Wallet from './Wallet.js'
-import NewOrder from './NewOrder.js'
-import AllOrders from './AllOrders.js'
-import MyOrders from './MyOrders.js'
-import AllTrades from './AllTrades.js'
-import { Address, PublicClient } from 'viem'
+import { useState, useEffect, useCallback } from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import Wallet from './Wallet';
+import NewOrder from './NewOrder';
+import AllOrders from './AllOrders';
+import MyOrders from './MyOrders';
+import AllTrades from './AllTrades';
+import { Address, PublicClient, hexToString } from 'viem';
+import { sepolia } from 'viem/chains';
+import {
+  getPublicClient,
+  getDexReadWrite,
+  DexContract,
+  TokenContract,
+  TokenStructType,
+  Order,
+  getTokenReadWrite,
+  getWalletClient,
+  getDexTradeEvents,
+  Trade,
+} from './utils';
 
 type AppProps = {
-    accounts: Array<Address>
-    publicClient: PublicClient
-}
+  accounts: Array<Address>;
+};
 
-const SIDE = {
-    BUY: 0,
-    SELL: 1,
-}
+export type Orders = {
+  buy: Array<Order>;
+  sell: Array<Order>;
+};
 
-function App({ accounts, publicClient }: AppProps) {
-    const [tokens, setTokens] = useState([])
-    const [user, setUser] = useState({
-        accounts: [],
-        balances: {
-            tokenDex: 0,
-            tokenWallet: 0,
-        },
-        selectedToken: undefined,
-    })
-    const [orders, setOrders] = useState({
-        buy: [],
-        sell: [],
-    })
-    const [trades, setTrades] = useState([])
-    const [listener, setListener] = useState(undefined)
+export type Balances = {
+  tokenDex: bigint;
+  tokenWallet: bigint;
+};
 
-    const getBalances = async (account, token) => {
-        const tokenDex = await contracts.dex.methods
-            .traderBalances(account, web3.utils.fromAscii(token.ticker))
-            .call()
-        const tokenWallet = await contracts[token.ticker].methods
-            .balanceOf(account)
-            .call()
-        console.log(`${token.ticker} Balance for Dex: ${tokenDex}`)
-        console.log(`${token.ticker} Balance for Wallet: ${tokenWallet}`)
-        return { tokenDex, tokenWallet }
-    }
+export const SIDE = {
+  BUY: 0,
+  SELL: 1,
+};
 
-    const getOrders = async (token) => {
-        const orders = await Promise.all([
-            contracts.dex.methods
-                .getOrders(web3.utils.fromAscii(token.ticker), SIDE.BUY)
-                .call(),
-            contracts.dex.methods
-                .getOrders(web3.utils.fromAscii(token.ticker), SIDE.SELL)
-                .call(),
-        ])
-        return { buy: orders[0], sell: orders[1] }
-    }
+function App({ accounts }: AppProps) {
+  const [publicClient, setPublicClient] = useState<PublicClient | null>(null);
+  const [dex, setDex] = useState<DexContract | null>(null);
+  const [tokens, setTokens] = useState<Array<TokenStructType> | null>(null);
+  const [selectedToken, setSelectedToken] = useState<TokenStructType | null>(null);
+  const [contracts, setContracts] = useState<Record<string, TokenContract> | null>(null);
+  const [orders, setOrders] = useState<Orders | null>(null);
+  const [balances, setBalances] = useState<Balances | null>(null);
+  const [trades, setTrades] = useState<Array<Trade> | null>(null);
+  // const [listener, setListener] = useState(undefined);
 
-    const listenToTrades = (token) => {
-        const tradeIds = new Set()
-        setTrades([])
-        const listener = contracts.dex.events
-            .NewTrade({
-                filter: { ticker: web3.utils.fromAscii(token.ticker) },
-                fromBlock: 0,
-            })
-            .on('data', (newTrade) => {
-                if (tradeIds.has(newTrade.returnValues.tradeId)) return
-                tradeIds.add(newTrade.returnValues.tradeId)
-                setTrades((trades) => [...trades, newTrade.returnValues])
-            })
-        setListener(listener)
-    }
+  console.log('orders', orders);
+  console.log('balances', balances);
+  console.log('tokens', tokens);
+  console.log('selectedToken', selectedToken);
+  console.log('contracts', contracts);
+  console.log('trades', trades);
 
-    const selectToken = (token) => {
-        setUser({ ...user, selectedToken: token })
-    }
+  // const listenToTrades = (token) => {
+  //   const tradeIds = new Set();
+  //   setTrades([]);
+  //   const listener = contracts.dex.events
+  //     .NewTrade({
+  //       filter: { ticker: web3.utils.fromAscii(token.ticker) },
+  //       fromBlock: 0,
+  //     })
+  //     .on("data", (newTrade) => {
+  //       if (tradeIds.has(newTrade.returnValues.tradeId)) return;
+  //       tradeIds.add(newTrade.returnValues.tradeId);
+  //       setTrades((trades) => [...trades, newTrade.returnValues]);
+  //     });
+  //   setListener(listener);
+  // };
 
-    const deposit = async (amount) => {
-        await contracts[user.selectedToken.ticker].methods
-            .approve(contracts.dex.options.address, amount)
-            .send({ from: user.accounts[0] })
-        await contracts.dex.methods
-            .deposit(amount, web3.utils.fromAscii(user.selectedToken.ticker))
-            .send({ from: user.accounts[0] })
-        const balances = await getBalances(user.accounts[0], user.selectedToken)
-        setUser((user) => ({ ...user, balances }))
-    }
+  const connectPublicClient = useCallback(async () => {
+    if (publicClient) return;
+    const pClient = getPublicClient();
+    const wClient = getWalletClient();
+    const dexReadWrite = await getDexReadWrite(pClient, wClient);
+    const rawTokens = await dexReadWrite.read.getTokens();
+    const tokensWithName = rawTokens.map((tokenStruct) => {
+      return { ...tokenStruct, name: hexToString(tokenStruct.ticker).replace(/[^ -~]+/g, '') };
+    });
+    const tokenContracts = {};
+    tokensWithName.map((token) =>
+      getTokenReadWrite(pClient, wClient, token.tokenAddress).then((res) =>
+        Object.assign(tokenContracts, { [token.name]: res })
+      )
+    );
+    const logs = await getDexTradeEvents(pClient, dexReadWrite);
+    setPublicClient(pClient);
+    setDex(dexReadWrite);
+    setTokens(tokensWithName);
+    setSelectedToken(tokensWithName[0]);
+    setContracts(tokenContracts);
+    setTrades(logs);
+  }, [getPublicClient, getDexReadWrite, getDexTradeEvents, getTokenReadWrite, publicClient]);
 
-    const withdraw = async (amount) => {
-        await contracts.dex.methods
-            .withdraw(amount, web3.utils.fromAscii(user.selectedToken.ticker))
-            .send({ from: user.accounts[0] })
-        const balances = await getBalances(user.accounts[0], user.selectedToken)
-        setUser((user) => ({ ...user, balances }))
-    }
+  const getOrders = useCallback(async () => {
+    if (!selectedToken || !dex) return;
+    const buyOrders = await dex.read.getOrders([selectedToken.ticker, SIDE.BUY]);
+    const sellOrders = await dex.read.getOrders([selectedToken.ticker, SIDE.SELL]);
+    setOrders({ buy: buyOrders, sell: sellOrders });
+  }, [selectedToken, dex]);
 
-    const createMarketOrder = async (amount, side) => {
-        await contracts.dex.methods
-            .createMarketOrder(
-                web3.utils.fromAscii(user.selectedToken.ticker),
-                amount,
-                side
-            )
-            .send({ from: user.accounts[0] })
-        const orders = await getOrders(user.selectedToken)
-        setOrders(orders)
-    }
+  const getBalances = useCallback(
+    async (account: Address) => {
+      if (!dex || !selectedToken || !contracts) return;
+      const tokenDex = await dex.read.traderBalances([account, selectedToken.ticker]);
+      const tokenWallet = await contracts[selectedToken.name].read.balanceOf([account]);
+      setBalances({ tokenDex, tokenWallet });
+    },
+    [dex, selectedToken, contracts]
+  );
 
-    const createLimitOrder = async (amount, price, side) => {
-        await contracts.dex.methods
-            .createLimitOrder(
-                web3.utils.fromAscii(user.selectedToken.ticker),
-                amount,
-                price,
-                side
-            )
-            .send({ from: user.accounts[0] })
-        const orders = await getOrders(user.selectedToken)
-        setOrders(orders)
-    }
+  const deposit = useCallback(
+    async (amount: number) => {
+      if (!selectedToken || !dex || !contracts) return;
+      await contracts[selectedToken.name].write.approve([dex.address, BigInt(amount)], {
+        account: accounts[0],
+        chain: sepolia,
+      });
+      await dex.write.deposit([BigInt(amount), selectedToken.ticker], { account: accounts[0], chain: sepolia });
+    },
+    [selectedToken, dex, contracts]
+  );
 
-    useEffect(() => {
-        const init = async () => {
-            const rawTokens = await contracts.dex.methods.getTokens().call()
-            const tokens = rawTokens.map((token) => ({
-                ...token,
-                ticker: web3.utils.hexToUtf8(token.ticker),
-            }))
-            const [balances, orders] = await Promise.all([
-                getBalances(accounts[0], tokens[0]),
-                getOrders(tokens[0]),
-            ])
-            listenToTrades(tokens[0])
-            setTokens(tokens)
-            setUser({ accounts, balances, selectedToken: tokens[0] })
-            setOrders(orders)
-        }
-        init()
-    }, [])
+  const withdraw = useCallback(
+    async (amount: number) => {
+      if (!dex || !selectedToken) return;
+      await dex.write.withdraw([BigInt(amount), selectedToken.ticker], { account: accounts[0], chain: sepolia });
+    },
+    [dex, selectedToken]
+  );
 
-    useEffect(
-        () => {
-            const init = async () => {
-                const [balances, orders] = await Promise.all([
-                    getBalances(accounts[0], user.selectedToken),
-                    getOrders(user.selectedToken),
-                ])
-                listenToTrades(user.selectedToken)
-                setUser((user) => ({ ...user, balances }))
-                setOrders(orders)
-            }
-            if (typeof user.selectedToken !== 'undefined') {
-                init()
-            }
-        },
-        [user.selectedToken],
-        () => {
-            listener.unsubscribe()
-        }
-    )
+  const createMarketOrder = useCallback(
+    async (amount: string, side: number) => {
+      if (!dex || !selectedToken) return;
+      await dex.write.createMarketOrder([selectedToken.ticker, BigInt(amount), side], {
+        account: accounts[0],
+        chain: sepolia,
+      });
+    },
+    [dex, selectedToken]
+  );
 
-    if (typeof user.selectedToken === 'undefined') {
-        return <div>Loading tokens...</div>
-    }
+  const createLimitOrder = useCallback(
+    async (amount: string, price: string, side: number) => {
+      if (!dex || !selectedToken) return;
+      await dex.write.createLimitOrder([selectedToken.ticker, BigInt(amount), BigInt(price), side], {
+        account: accounts[0],
+        chain: sepolia,
+      });
+    },
+    [dex, selectedToken]
+  );
 
-    return (
-        <div id="app">
-            <Header
-                contracts={contracts}
-                tokens={tokens}
-                user={user}
-                selectToken={selectToken}
-            />
-            <main className="container-fluid">
-                <div className="row">
-                    <div className="col-sm-4 first-col">
-                        <Wallet
-                            user={user}
-                            deposit={deposit}
-                            withdraw={withdraw}
-                        />
-                        {user.selectedToken.ticker !== 'DAI' ? (
-                            <NewOrder
-                                createLimitOrder={createLimitOrder}
-                                createMarketOrder={createMarketOrder}
-                            />
-                        ) : null}
-                    </div>
-                    {user.selectedToken.ticker !== 'DAI' ? (
-                        <div className="col-sm-8">
-                            <AllTrades trades={trades} />
-                            <AllOrders orders={orders} />
-                            <MyOrders
-                                orders={{
-                                    buy: orders.buy.filter(
-                                        (order) =>
-                                            order.trader.toLowerCase() ===
-                                            user.accounts[0].toLowerCase()
-                                    ),
-                                    sell: orders.sell.filter(
-                                        (order) =>
-                                            order.trader.toLowerCase() ===
-                                            user.accounts[0].toLowerCase()
-                                    ),
-                                }}
-                            />
-                        </div>
-                    ) : null}
-                </div>
-            </main>
-            <Footer />
+  useEffect(() => {
+    connectPublicClient();
+    getOrders();
+    getBalances(accounts[0]);
+  }, [connectPublicClient, getOrders, accounts]);
+
+  if (!orders || !dex || !selectedToken || !tokens || !balances) return <p>Loading...</p>;
+
+  return (
+    <div id="app">
+      <Header dex={dex} tokens={tokens} selectedToken={selectedToken} setSelectedToken={setSelectedToken} />
+      <main>
+        <div className="">
+          <div className="">
+            <Wallet selectedToken={selectedToken} balances={balances} deposit={deposit} withdraw={withdraw} />
+            {selectedToken.name !== 'DAI' ? (
+              <NewOrder createLimitOrder={createLimitOrder} createMarketOrder={createMarketOrder} />
+            ) : null}
+          </div>
+          {selectedToken.name !== 'DAI' ? (
+            <div className="">
+              <AllTrades trades={trades} />
+              <AllOrders orders={orders} />
+              <MyOrders
+                orders={{
+                  buy: orders.buy.filter((order) => order.trader.toLowerCase() === accounts[0].toLowerCase()),
+                  sell: orders.sell.filter((order) => order.trader.toLowerCase() === accounts[0].toLowerCase()),
+                }}
+              />
+            </div>
+          ) : null}
         </div>
-    )
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;
