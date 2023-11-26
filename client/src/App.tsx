@@ -86,8 +86,8 @@ function App({ accounts }: AppProps) {
     const tokenContracts = {};
     tokensWithName.map((token) =>
       getTokenReadWrite(pClient, wClient, token.tokenAddress).then((res) =>
-        Object.assign(tokenContracts, { [token.name]: res })
-      )
+        Object.assign(tokenContracts, { [token.name]: res }),
+      ),
     );
     const logs = await getDexTradeEvents(pClient, dexReadWrite);
     setPublicClient(pClient);
@@ -112,7 +112,7 @@ function App({ accounts }: AppProps) {
       const tokenWallet = await contracts[selectedToken.name].read.balanceOf([account]);
       setBalances({ tokenDex, tokenWallet });
     },
-    [dex, selectedToken, contracts]
+    [dex, selectedToken, contracts],
   );
 
   const deposit = useCallback(
@@ -124,7 +124,7 @@ function App({ accounts }: AppProps) {
       });
       await dex.write.deposit([BigInt(amount), selectedToken.ticker], { account: accounts[0], chain: sepolia });
     },
-    [selectedToken, dex, contracts]
+    [selectedToken, dex, contracts],
   );
 
   const withdraw = useCallback(
@@ -132,7 +132,7 @@ function App({ accounts }: AppProps) {
       if (!dex || !selectedToken) return;
       await dex.write.withdraw([BigInt(amount), selectedToken.ticker], { account: accounts[0], chain: sepolia });
     },
-    [dex, selectedToken]
+    [dex, selectedToken],
   );
 
   const createMarketOrder = useCallback(
@@ -143,7 +143,7 @@ function App({ accounts }: AppProps) {
         chain: sepolia,
       });
     },
-    [dex, selectedToken]
+    [dex, selectedToken],
   );
 
   const createLimitOrder = useCallback(
@@ -154,7 +154,7 @@ function App({ accounts }: AppProps) {
         chain: sepolia,
       });
     },
-    [dex, selectedToken]
+    [dex, selectedToken],
   );
 
   useEffect(() => {

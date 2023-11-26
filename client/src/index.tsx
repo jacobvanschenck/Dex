@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import LoadingContainer from './LoadingContainer';
 import './index.css';
+import AppLayout from './AppLayout';
 
 const root = createRoot(document.getElementById('root'));
-root.render(<LoadingContainer />);
+root.render(<AppLayout />);
