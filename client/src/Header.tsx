@@ -16,18 +16,18 @@ function Header({ tokens, dex, selectedToken, setSelectedToken }: HeaderProps) {
         <div>
           <Dropdown
             items={tokens.map((token) => ({
-              label: token.ticker,
+              label: token.name,
               value: token,
             }))}
             activeItem={{
-              label: selectedToken.ticker,
+              label: selectedToken.name,
               value: selectedToken,
             }}
             onSelect={setSelectedToken}
           />
         </div>
-        <div className="col-sm-9">
-          <h1 className="header-title">
+        <div className="">
+          <h1 className="">
             Dex -
             <span className="contract-address">
               Contract Address: <span className="address">{dex.address}</span>

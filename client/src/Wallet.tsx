@@ -31,7 +31,7 @@ function Wallet({ deposit, withdraw, selectedToken, balances }: WalletProps) {
     <div id="wallet" className="">
       <h2 className="card-title">Wallet</h2>
 
-      <h3>Token balance for {selectedToken.ticker}</h3>
+      <h3>Token balance for {selectedToken.name}</h3>
       <div className="">
         <p className="">Wallet</p>
         <p className="" id="wallet">
@@ -44,7 +44,7 @@ function Wallet({ deposit, withdraw, selectedToken, balances }: WalletProps) {
           {balances.tokenDex.toString()} wei
         </p>
       </div>
-      <h3>Transfer {selectedToken.ticker}</h3>
+      <h3>Transfer {selectedToken.name}</h3>
       <form id="transfer" onSubmit={(e) => onSubmit(e)}>
         <div className="">
           <label htmlFor="direction" className="">
@@ -69,7 +69,7 @@ function Wallet({ deposit, withdraw, selectedToken, balances }: WalletProps) {
             <div className="">
               <input id="amount" type="number" className="" onChange={(e) => setAmount(Number(e.target.value))} />
               <div className="">
-                <span className="">{selectedToken.ticker}</span>
+                <span className="">{selectedToken.name}</span>
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ type AllOrdersProps = {
 };
 
 function AllOrders({ orders }: AllOrdersProps) {
-  const renderList = (orders: Array<Order>, side: string, className: string) => {
+  const renderList = (orders: Array<Order>, side: string) => {
     return (
       <>
         <table className={``}>
@@ -38,8 +38,8 @@ function AllOrders({ orders }: AllOrdersProps) {
     <div className="">
       <h2 className="">All orders</h2>
       <div className="">
-        <div className="">{renderList(orders.buy, 'Buy', '')}</div>
-        <div className="">{renderList(orders.sell, 'Sell', '')}</div>
+        <div className="">{renderList(orders.buy, 'Buy')}</div>
+        <div className="">{renderList(orders.sell, 'Sell')}</div>
       </div>
     </div>
   );

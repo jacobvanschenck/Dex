@@ -166,7 +166,7 @@ function App({ accounts }: AppProps) {
   if (!orders || !dex || !selectedToken || !tokens || !balances) return <p>Loading...</p>;
 
   return (
-    <div id="app">
+    <div id="app" className="">
       <Header dex={dex} tokens={tokens} selectedToken={selectedToken} setSelectedToken={setSelectedToken} />
       <main>
         <div className="">

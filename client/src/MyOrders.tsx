@@ -1,12 +1,12 @@
-import React from 'react';
 import { Orders } from './App';
+import { Order } from './utils';
 
 type MyOrdersProps = {
   orders: Orders;
 };
 
 function MyOrders({ orders }: MyOrdersProps) {
-  const renderList = (orders, side, className) => {
+  const renderList = (orders: Array<Order>, side: string) => {
     return (
       <>
         <table className={``}>
@@ -22,11 +22,11 @@ function MyOrders({ orders }: MyOrdersProps) {
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr key={order.id}>
+              <tr key={Number(order.id)}>
                 <td>
-                  {order.amount}/{order.filled}
+                  {Number(order.amount)}/{Number(order.filled)}
                 </td>
-                <td>{order.price}</td>
+                <td>{Number(order.price)}</td>
                 <td>{new Date(Number(order.date) * 1000).toLocaleDateString()}</td>
               </tr>
             ))}
@@ -40,8 +40,8 @@ function MyOrders({ orders }: MyOrdersProps) {
     <div id="order-list" className="">
       <h2 className="">My orders</h2>
       <div className="">
-        <div className="">{renderList(orders.buy, 'Buy', 'order-list-buy')}</div>
-        <div className="">{renderList(orders.sell, 'Sell', 'order-list-sell')}</div>
+        <div className="">{renderList(orders.buy, 'Buy')}</div>
+        <div className="">{renderList(orders.sell, 'Sell')}</div>
       </div>
     </div>
   );
