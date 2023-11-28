@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import NavButton from './NavButton';
+import { CardType, ORDER, PRICE, TRADE, WALLET } from '../../types';
 
-export default function MobileNav() {
-  const cards = ['wallet', 'swap', 'orders', 'trades'];
-  const [selectedCard, setSelectedCard] = useState(cards[0]);
+type MobileNavProps = {
+  currentCard: CardType;
+  setCurrentCard: Dispatch<SetStateAction<CardType>>;
+};
 
+export default function MobileNav({ currentCard, setCurrentCard }: MobileNavProps) {
   return (
     <div className="flex gap-2 p-2 bg-gray-800 rounded-[50px]">
-      <NavButton isSelected={selectedCard === 'wallet'} onClick={() => setSelectedCard('wallet')}>
+      <NavButton isSelected={currentCard === WALLET} onClick={() => setCurrentCard(WALLET)}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6">
           <path
             strokeLinecap="round"
@@ -16,7 +19,7 @@ export default function MobileNav() {
           />
         </svg>
       </NavButton>
-      <NavButton isSelected={selectedCard === 'swap'} onClick={() => setSelectedCard('swap')}>
+      <NavButton isSelected={currentCard === TRADE} onClick={() => setCurrentCard(TRADE)}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6">
           <path
             strokeLinecap="round"
@@ -25,7 +28,7 @@ export default function MobileNav() {
           />
         </svg>
       </NavButton>
-      <NavButton isSelected={selectedCard === 'orders'} onClick={() => setSelectedCard('orders')}>
+      <NavButton isSelected={currentCard === ORDER} onClick={() => setCurrentCard(ORDER)}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6">
           <path
             strokeLinecap="round"
@@ -34,7 +37,7 @@ export default function MobileNav() {
           />
         </svg>
       </NavButton>
-      <NavButton isSelected={selectedCard === 'trades'} onClick={() => setSelectedCard('trades')}>
+      <NavButton isSelected={currentCard === PRICE} onClick={() => setCurrentCard(PRICE)}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6">
           <path
             strokeLinecap="round"

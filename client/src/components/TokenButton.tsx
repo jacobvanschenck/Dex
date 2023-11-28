@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
+import { TokenType } from '../types';
 
 type TokenButtonProps = {
-  token: string;
+  token: TokenType;
   isSelected: boolean;
-  setSelectedToken: Dispatch<SetStateAction<string>>;
+  setSelectedToken: Dispatch<SetStateAction<TokenType>>;
 };
 
 export default function TokenButton({ token, isSelected, setSelectedToken }: TokenButtonProps) {
