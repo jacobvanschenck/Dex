@@ -2,9 +2,11 @@ export const WALLET = 'WALLET';
 export const TRADE = 'TRADE';
 export const ORDER = 'ORDER';
 export const PRICE = 'PRICE';
+export const DEPOSIT = 'DEPOSIT';
+export const WITHDRAW = 'WITHDRAW';
 
-export type CardType = typeof WALLET | typeof TRADE | typeof ORDER | typeof PRICE;
-export const CARDS = [WALLET, TRADE, ORDER, PRICE] as const;
+export type CardType = typeof WALLET | typeof TRADE | typeof ORDER | typeof PRICE | typeof DEPOSIT | typeof WITHDRAW;
+export const CARDS = [WALLET, TRADE, ORDER, PRICE, DEPOSIT, WITHDRAW] as const;
 
 export const DAI = 'DAI';
 export const BAT = 'BAT';

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import NavButton from './NavButton';
-import { CardType, ORDER, PRICE, TRADE, WALLET } from '../../types';
+import { CardType, DEPOSIT, ORDER, PRICE, TRADE, WALLET, WITHDRAW } from '../../types';
 
 type MobileNavProps = {
   currentCard: CardType;
@@ -10,7 +10,10 @@ type MobileNavProps = {
 export default function MobileNav({ currentCard, setCurrentCard }: MobileNavProps) {
   return (
     <div className="flex gap-2 p-2 bg-gray-800 rounded-[50px]">
-      <NavButton isSelected={currentCard === WALLET} onClick={() => setCurrentCard(WALLET)}>
+      <NavButton
+        isSelected={currentCard === WALLET || currentCard === DEPOSIT || currentCard === WITHDRAW}
+        onClick={() => setCurrentCard(WALLET)}
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6">
           <path
             strokeLinecap="round"

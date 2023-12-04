@@ -1,12 +1,21 @@
 import { PrimaryButton } from '../shared/PrimaryButton';
+import { CardType, DEPOSIT, TokenType, WITHDRAW } from '../../types';
+import { Dispatch, SetStateAction } from 'react';
 
-export default function WalletCard() {
+type WalletCardProps = {
+  selectedToken: TokenType;
+  setCard: Dispatch<SetStateAction<CardType>>;
+};
+
+export default function WalletCard({ selectedToken, setCard }: WalletCardProps) {
   return (
-    <div className="flex flex-col justify-end items-start">
-      <p>total balance</p>
-      <p>1.0001 DAI</p>
+    <div className="flex flex-col gap-3 justify-end items-start">
+      <p className="text-primary-200">Total balance</p>
+      <p className="text-4xl font-bold">
+        1.0001 <span className="text-2xl font-normal">{selectedToken}</span>
+      </p>
       <div className="flex gap-4">
-        <PrimaryButton>
+        <PrimaryButton action={() => setCard(DEPOSIT)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -17,9 +26,9 @@ export default function WalletCard() {
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
           </svg>
-          Depost
+          Deposit
         </PrimaryButton>
-        <PrimaryButton>
+        <PrimaryButton action={() => setCard(WITHDRAW)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -15,7 +15,7 @@ export default function AppLayout() {
       </div>
       <div className="flex justify-center items-center w-full h-1/4 border-2 bg border-neutral-50">{`Chart for ${selectedToken} goes here`}</div>
       <TokenPillsContainer selectedToken={selectedToken} setSelectedToken={setSelectedToken} />
-      <CardContainer card={currentCard} />
+      <CardContainer setCard={setCurrentCard} selectedToken={selectedToken} card={currentCard} />
       <MobileNav currentCard={currentCard} setCurrentCard={setCurrentCard} />
     </div>
   );
