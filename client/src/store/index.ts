@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 type Store = {
   actionSheetOpen: boolean;
-  setActionSheetOpen: () => void;
+  setActionSheetOpen: (value: boolean) => void;
 };
 
 export const useDexStore = create<Store>()((set) => ({
