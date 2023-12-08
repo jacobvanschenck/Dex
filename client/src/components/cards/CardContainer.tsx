@@ -6,6 +6,7 @@ import PriceCard from './PriceCard';
 import TradeCard from './TradeCard';
 import WalletCard from './WalletCard';
 import WithdrawCard from './WithdrawCard';
+import ConnectWallet from '../../ConnectWallet';
 
 type CardContainerProps = {
   card: CardType;
@@ -32,7 +33,8 @@ export default function CardContainer({ card, setCard, selectedToken }: CardCont
   };
   return (
     <div className="flex text-primary-50 flex-1 p-8 w-full bg-gradient-to-br rounded-[50px] from-primary-500 from-60% to-primary-300">
-      {renderCard(card)}
+      {/* {renderCard(card)} */}
+      <ConnectWallet />
     </div>
   );
 }

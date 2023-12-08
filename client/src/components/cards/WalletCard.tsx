@@ -10,10 +10,12 @@ type WalletCardProps = {
 export default function WalletCard({ selectedToken, setCard }: WalletCardProps) {
   return (
     <div className="flex flex-col gap-3 justify-end items-start">
-      <p className="text-primary-200">Total balance</p>
-      <p className="text-4xl font-bold">
-        1.0001 <span className="text-2xl font-normal">{selectedToken}</span>
-      </p>
+      <div>
+        <p className="text-primary-200">Total balance</p>
+        <p className="text-4xl font-bold">
+          1.0001 <span className="text-2xl font-normal">{selectedToken}</span>
+        </p>
+      </div>
       <div className="flex gap-4">
         <PrimaryButton action={() => setCard(DEPOSIT)}>
           <svg

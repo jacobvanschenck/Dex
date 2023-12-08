@@ -23,12 +23,6 @@ export default function WithdrawCard({ onBack, selectedToken }: WithdrawCardProp
         Back
       </button>
       <div className="flex flex-col gap-4 justify-end items-start">
-        <div className="text-primary-200">
-          <p>Available</p>
-          <p>
-            1.001 <span>{selectedToken}</span>
-          </p>
-        </div>
         <div className="flex gap-2 items-end">
           <label className="transition-colors duration-100 text-primary-200 focus-within:text-primary-50">
             Amount
@@ -41,7 +35,13 @@ export default function WithdrawCard({ onBack, selectedToken }: WithdrawCardProp
           </label>
           <p className="text-2xl font-normal text-primary-200">{selectedToken}</p>
         </div>
-        <div className="flex justify-center w-full">
+        <div className="flex justify-between w-full">
+          <div className="text-primary-200 min-w-fit">
+            <p>Available</p>
+            <p>
+              1.001 <span>{selectedToken}</span>
+            </p>
+          </div>
           <PrimaryButton>
             <svg
               xmlns="http://www.w3.org/2000/svg"

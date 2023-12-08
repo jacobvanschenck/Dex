@@ -1,15 +1,13 @@
-import { PrimaryButton } from './components/PrimaryButton'
+import { PrimaryButton } from './components/shared/PrimaryButton';
+import { useDexStore } from './store';
 
-export type ConnectWalletProps = {
-    connectWallet: () => Promise<void>
-}
+export default function ConnectWallet() {
+  const setActionSheetOpen = useDexStore((state) => state.setActionSheetOpen);
 
-export default function ConnectWallet({ connectWallet }: ConnectWalletProps) {
-    return (
-        <div className="flex flex-col items-center pt-12 w-screen h-screen bg-slate-50">
-            <PrimaryButton action={connectWallet}>
-                Connect Metamask
-            </PrimaryButton>
-        </div>
-    )
+  return (
+    <div className="flex flex-col gap-4 justify-center items-center w-full text-center">
+      <p>Connect your wallet to start trading.</p>
+      <PrimaryButton action={() => setActionSheetOpen(true)}>Connect Wallet</PrimaryButton>
+    </div>
+  );
 }

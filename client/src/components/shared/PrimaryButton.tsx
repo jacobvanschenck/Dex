@@ -19,7 +19,7 @@ export function PrimaryButton({
   return (
     <button
       type={type}
-      className="flex gap-2 justify-center items-center py-4 w-36 font-bold bg-neutral-800 rounded-[50px] text-primary-50 disabled:bg-slate-200"
+      className="flex gap-2 justify-center items-center py-4 px-5 font-bold w-fit bg-neutral-800 rounded-[50px] text-primary-50 disabled:bg-slate-200"
       disabled={loading || disabled}
       onClick={async () => {
         if (!action && !asyncAction) return;
