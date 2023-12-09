@@ -11,11 +11,13 @@
   "dependencies": {
     "@metamask/detect-provider": "2.0.0",
     "@react-spring/web": "^9.7.3",
+    "@walletconnect/ethereum-provider": "^2.10.6",
     "ethers": "^6.7.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-moment": "^1.1.3",
+    "react-qr-code": "^2.0.12",
     "react-spinners": "^0.13.8",
     "recharts": "^2.8.0",
     "viem": "^1.10.3",

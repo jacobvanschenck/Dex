@@ -3,7 +3,7 @@ import TokenPillsContainer from './components/TokenPillsContainer';
 import MobileNav from './components/nav/MobileNav';
 import { CARDS, CardType, TOKENS, TokenType } from './types';
 import CardContainer from './components/cards/CardContainer';
-import ActionSheet from './components/ActionSheet';
+import ActionSheet from './components/actionsheets/ActionSheet';
 
 export default function AppLayout() {
   const [currentCard, setCurrentCard] = useState<CardType>(CARDS[0]);

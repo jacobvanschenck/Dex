@@ -1,5 +1,6 @@
-import { useDexStore } from '../store';
+import { useDexStore } from '../../store';
 import { animated, useTransition } from '@react-spring/web';
+import WalletConnectActionSheet from './ConnectWalletActionSheet';
 
 export default function ActionSheet() {
   const actionSheetOpen = useDexStore((state) => state.actionSheetOpen);
@@ -26,7 +27,7 @@ export default function ActionSheet() {
             style={{ ...style, opacity: 1 }}
             className="flex fixed bottom-0 justify-center items-center w-full h-1/2 rounded-t-3xl bg-neutral-900"
           >
-            ohh
+            <WalletConnectActionSheet />
           </animated.div>
         </>
       ),

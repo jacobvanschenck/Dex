@@ -12,7 +12,8 @@ import {
   http,
   publicActions,
 } from 'viem';
-import { sepolia } from 'viem/chains';
+import { goerli, mainnet, sepolia } from 'viem/chains';
+import { EthereumProvider } from '@walletconnect/ethereum-provider';
 
 export type DexContract = GetContractReturnType<typeof DexAbi, PublicClient, WalletClient>;
 export type TokenContract = GetContractReturnType<typeof TokenAbi, PublicClient, WalletClient>;
@@ -65,7 +66,7 @@ export const getDexTradeEvents = async (client: PublicClient, dex: DexContract) 
 export const getTokenReadWrite = async (
   publicClient: PublicClient,
   walletClient: WalletClient,
-  tokenAddress: Address
+  tokenAddress: Address,
 ) => {
   const token = getContract({
     address: tokenAddress,
@@ -82,7 +83,7 @@ export function getPublicClient() {
     transport: http(
       `https://eth-sepolia.g.alchemy.com/v2/${
         process.env.NETLIFY === 'true' ? process.env.VITE_ALCHEMY_API_KEY : import.meta.env.VITE_ALCHEMY_API_KEY
-      }`
+      }`,
     ),
   });
 }
@@ -94,4 +95,45 @@ export function getWalletClient() {
     //@ts-ignore
     transport: custom(window.ethereum),
   }).extend(publicActions);
+}
+
+export async function getWCEthereumProvider() {
+  const projectId =
+    process.env.NETLIFY === 'true' ? process.env.VITE_WC_PROJECT_ID : import.meta.env.VITE_WC_PROJECT_ID;
+  const provider = await EthereumProvider.init({
+    projectId,
+    showQrModal: false,
+    chains: [mainnet.id],
+    optionalChains: [goerli.id, sepolia.id],
+    metadata: {
+      name: 'TsunamiTrades',
+      description: 'Decentrailzed exchange for Market and Limit orders',
+      url: 'https://dex-vs.netlify.app/',
+      icons: ['https://avatars.githubusercontent.com/u/37784886'],
+    },
+  });
+  return provider;
+}
+
+export function isAndroid(): boolean {
+  return typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
+}
+
+export function isSmallIOS(): boolean {
+  return typeof navigator !== 'undefined' && /iPhone|iPod/.test(navigator.userAgent);
+}
+
+export function isLargeIOS(): boolean {
+  return (
+    typeof navigator !== 'undefined' &&
+    (/iPad/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+  );
+}
+
+export function isIOS(): boolean {
+  return isSmallIOS() || isLargeIOS();
+}
+
+export function isMobile(): boolean {
+  return isAndroid() || isIOS();
 }
