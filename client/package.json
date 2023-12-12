@@ -19,13 +19,14 @@
     "react-moment": "^1.1.3",
     "react-qr-code": "^2.0.12",
     "react-spinners": "^0.13.8",
-    "recharts": "^2.8.0",
-    "viem": "^1.10.3",
+    "react-vis": "^1.12.1",
+    "viem": "^1.19.13",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/react-vis": "^1.11.14",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "@vitejs/plugin-react": "^4.0.3",

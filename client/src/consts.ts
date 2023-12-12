@@ -1,3 +1,6 @@
+import { Address } from 'viem';
+import { BAT, DAI, REP, ZRX } from './types';
+
 const rainbowWallet = {
   url: 'rainbow://wc?uri=',
   icon: '/img/rainbowWallet.svg',
@@ -20,3 +23,15 @@ const metaMaskWallet = {
 };
 
 export const mobileWallets = [rainbowWallet, trustWallet, metaMaskWallet];
+
+export const DAI_TICKER = '0x444149';
+export const BAT_TICKER = '0x424154';
+export const REP_TICKER = '0x524550';
+export const ZRX_TICKER = '0x5a5258';
+
+export const TICKER: Record<string, Address> = {
+  [DAI]: DAI_TICKER,
+  [BAT]: BAT_TICKER,
+  [REP]: REP_TICKER,
+  [ZRX]: ZRX_TICKER,
+};
