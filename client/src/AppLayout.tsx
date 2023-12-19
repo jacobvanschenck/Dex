@@ -5,6 +5,7 @@ import { CARDS, CardType, TOKENS, TokenType } from './types';
 import CardContainer from './components/cards/CardContainer';
 import ActionSheet from './components/actionsheets/ActionSheet';
 import TradeChart from './components/TradeChart';
+import WalletProvider from './components/providers/WalletProvider';
 
 export default function AppLayout() {
   const [currentCard, setCurrentCard] = useState<CardType>(CARDS[0]);
@@ -20,6 +21,7 @@ export default function AppLayout() {
       <CardContainer setCard={setCurrentCard} selectedToken={selectedToken} card={currentCard} />
       <MobileNav currentCard={currentCard} setCurrentCard={setCurrentCard} />
       <ActionSheet />
+      <WalletProvider />
     </div>
   );
 }

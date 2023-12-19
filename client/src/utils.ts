@@ -13,6 +13,7 @@ import {
 } from 'viem';
 import { goerli, mainnet, sepolia } from 'viem/chains';
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
+import { SignClient } from '@walletconnect/sign-client';
 
 export type DexContractRead = GetContractReturnType<typeof DexAbi, PublicClient>;
 export type DexContractReadWrite = GetContractReturnType<typeof DexAbi, PublicClient, WalletClient>;
@@ -108,7 +109,7 @@ export function getWalletClient({ provider }: { provider: any & { request(...arg
   });
 }
 
-export async function getWCEthereumProvider() {
+export async function getEthereumProvider() {
   const projectId =
     process.env.NETLIFY === 'true' ? process.env.VITE_WC_PROJECT_ID : import.meta.env.VITE_WC_PROJECT_ID;
   const provider = await EthereumProvider.init({

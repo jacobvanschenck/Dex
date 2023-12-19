@@ -12,6 +12,8 @@
     "@metamask/detect-provider": "2.0.0",
     "@react-spring/web": "^9.7.3",
     "@walletconnect/ethereum-provider": "^2.10.6",
+    "@walletconnect/sign-client": "^2.10.6",
+    "@walletconnect/universal-provider": "^2.10.6",
     "ethers": "^6.7.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
