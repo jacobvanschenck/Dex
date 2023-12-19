@@ -10,3 +10,4 @@
 - [ ] Trade Card functionality
 - [ ] Orders List
 - [ ] Update Github readme
+- [x] Change favicon
