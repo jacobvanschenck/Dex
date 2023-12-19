@@ -1,7 +1,7 @@
 # TODO
 
-- [ ] Connect Wallet Client (reconnect through local storage if available)
-  - [ ] Show Connect Wallet Card otherwise
+- [x] Connect Wallet Client (reconnect through local storage if available)
+  - [x] Show Connect Wallet Card otherwise
 - [ ] Desktop Mode
   - [ ] Connect Modal
   - [ ] Layout
