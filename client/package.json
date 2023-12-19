@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "@metamask/detect-provider": "2.0.0",

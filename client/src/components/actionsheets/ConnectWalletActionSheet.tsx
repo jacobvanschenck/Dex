@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { isMobile } from '../../utils';
 import QRCode from 'react-qr-code';
 import { mobileWallets } from '../../consts';
-import { SyncLoader } from 'react-spinners';
 import { useDexStore } from '../../store';
 
 export default function WalletConnectActionSheet() {
-  const [loading, setLoading] = useState(false);
   const [uri, setUri] = useState<string | null>(null);
   const [walletUrl, setWalletUrl] = useState<string>();
 
@@ -39,8 +37,6 @@ export default function WalletConnectActionSheet() {
           <p>{account}</p>
           <button onClick={() => disconnect()}>disconnect</button>
         </>
-      ) : loading ? (
-        <SyncLoader size="15px" color="#fefcea" speedMultiplier={0.85} />
       ) : uri ? (
         <>
           <p>Scan to connect your wallet</p>

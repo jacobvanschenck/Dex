@@ -17,7 +17,7 @@ export default function WalletProvider() {
     } catch (err) {
       console.error(err);
     }
-  }, []);
+  }, [setProvider]);
 
   const connectFunc = useCallback(async () => {
     if (!provider) return;
@@ -34,7 +34,7 @@ export default function WalletProvider() {
     if (!provider) {
       getProvider();
     }
-  }, [provider]);
+  }, [provider, getProvider]);
 
   useEffect(() => {
     if (!provider || !!account) return;
@@ -68,7 +68,7 @@ export default function WalletProvider() {
       provider.removeListener('accountsChanged', onAccountsChanged);
       provider.removeListener('disconnect', onDisconnect);
     };
-  }, [provider, disconnectFunc, getProvider]);
+  }, [provider, disconnectFunc, getProvider, setAccount]);
 
   return null;
 }

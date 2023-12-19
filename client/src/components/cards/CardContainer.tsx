@@ -7,6 +7,7 @@ import TradeCard from './TradeCard';
 import WalletCard from './WalletCard';
 import WithdrawCard from './WithdrawCard';
 import ConnectWallet from '../../ConnectWallet';
+import { useDexStore } from '../../store';
 
 type CardContainerProps = {
   card: CardType;
@@ -15,6 +16,8 @@ type CardContainerProps = {
 };
 
 export default function CardContainer({ card, setCard, selectedToken }: CardContainerProps) {
+  const account = useDexStore((state) => state.account);
+
   const renderCard = (card: CardType) => {
     switch (card) {
       case WALLET:
@@ -33,8 +36,7 @@ export default function CardContainer({ card, setCard, selectedToken }: CardCont
   };
   return (
     <div className="flex text-primary-50 flex-1 p-8 w-full bg-gradient-to-br rounded-[50px] from-primary-500 from-60% to-primary-300">
-      {/* {renderCard(card)} */}
-      <ConnectWallet />
+      {account ? renderCard(card) : <ConnectWallet />}
     </div>
   );
 }

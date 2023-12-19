@@ -13,7 +13,6 @@ import {
 } from 'viem';
 import { goerli, mainnet, sepolia } from 'viem/chains';
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
-import { SignClient } from '@walletconnect/sign-client';
 
 export type DexContractRead = GetContractReturnType<typeof DexAbi, PublicClient>;
 export type DexContractReadWrite = GetContractReturnType<typeof DexAbi, PublicClient, WalletClient>;

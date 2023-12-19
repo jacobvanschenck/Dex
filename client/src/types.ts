@@ -1,5 +1,3 @@
-import { Address } from 'viem';
-
 export const WALLET = 'WALLET';
 export const TRADE = 'TRADE';
 export const ORDER = 'ORDER';

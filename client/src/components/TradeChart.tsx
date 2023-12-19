@@ -28,7 +28,7 @@ export default function TradeChart({ selectedToken }: TradeChartProps) {
         console.error(err);
       }
     },
-    [selectedToken],
+    [selectedToken, publicClient],
   );
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function TradeChart({ selectedToken }: TradeChartProps) {
   useEffect(() => {
     if (!publicClient) return;
     getDex(publicClient);
-  }, [getDex]);
+  }, [getDex, publicClient]);
 
   if (!data) return null;
 

@@ -17,9 +17,9 @@ function LoadingContainer() {
     setAccounts(accounts);
   }, []);
 
-  // if (!accounts || !publicClient) {
-  //   return <ConnectWallet connectWallet={connectWallet} />;
-  // }
+  if (!accounts || !publicClient) {
+    return <ConnectWallet connectWallet={connectWallet} />;
+  }
 
   return <App accounts={accounts} />;
 }
