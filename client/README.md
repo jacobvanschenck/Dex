@@ -2,6 +2,7 @@
 
 - [x] Connect Wallet Client (reconnect through local storage if available)
   - [x] Show Connect Wallet Card otherwise
+  - [ ] Add Connect Wallet Card, Separate Deposit Card
 - [ ] Desktop Mode
   - [ ] Connect Modal
   - [ ] Layout
@@ -9,5 +10,6 @@
 - [ ] Fix Chart x axis (fallback?)
 - [ ] Trade Card functionality
 - [ ] Orders List
+- [ ] Transition Everything
 - [ ] Update Github readme
 - [x] Change favicon

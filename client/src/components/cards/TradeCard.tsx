@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import Pill from '../Pill';
 import { PrimaryButton } from '../shared/PrimaryButton';
-import { TokenType } from '../../types';
-
-type TradeCardProps = {
-  selectedToken: TokenType;
-};
+import { useDexStore } from '../../store';
 
 const BUY = 'BUY';
 const SELL = 'SELL';
 const MARKET = 'MARKET';
 const LIMIT = 'LIMIT';
 
-export default function TradeCard({ selectedToken }: TradeCardProps) {
+export default function TradeCard() {
+  const selectedToken = useDexStore((state) => state.selectedToken);
   const [side, setSide] = useState(BUY);
   const [type, setType] = useState(LIMIT);
 

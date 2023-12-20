@@ -1,13 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
 import TokenButton from './TokenButton';
-import { TOKENS, TokenType } from '../types';
+import { TOKENS } from '../types';
+import { useDexStore } from '../store';
 
-type TokenPillsContainerProps = {
-  selectedToken: TokenType;
-  setSelectedToken: Dispatch<SetStateAction<TokenType>>;
-};
+export default function TokenPillsContainer() {
+  const selectedToken = useDexStore((state) => state.selectedToken);
+  const setSelectedToken = useDexStore((state) => state.setSelectedToken);
 
-export default function TokenPillsContainer({ selectedToken, setSelectedToken }: TokenPillsContainerProps) {
   return (
     <div className="flex gap-1 p-2 w-full bg-gray-800 rounded-[50px]">
       {TOKENS.map((t, i) => (

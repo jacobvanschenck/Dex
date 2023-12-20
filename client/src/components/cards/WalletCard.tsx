@@ -1,13 +1,10 @@
 import { PrimaryButton } from '../shared/PrimaryButton';
-import { CardType, DEPOSIT, TokenType, WITHDRAW } from '../../types';
-import { Dispatch, SetStateAction } from 'react';
+import { DEPOSIT, WITHDRAW } from '../../types';
+import { useDexStore } from '../../store';
 
-type WalletCardProps = {
-  selectedToken: TokenType;
-  setCard: Dispatch<SetStateAction<CardType>>;
-};
-
-export default function WalletCard({ selectedToken, setCard }: WalletCardProps) {
+export default function WalletCard() {
+  const selectedToken = useDexStore((state) => state.selectedToken);
+  const setCard = useDexStore((state) => state.setCurrentCard);
   return (
     <div className="flex flex-col gap-3 justify-end items-start">
       <div>

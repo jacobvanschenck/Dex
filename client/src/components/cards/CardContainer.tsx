@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
-import { CardType, DEPOSIT, ORDER, PRICE, TRADE, TokenType, WALLET, WITHDRAW } from '../../types';
+import { CardType, DEPOSIT, ORDER, PRICE, TRADE, WALLET, WITHDRAW } from '../../types';
 import DepositCard from './DepositCard';
 import OrderCard from './OrderCard';
 import PriceCard from './PriceCard';
@@ -9,33 +8,29 @@ import WithdrawCard from './WithdrawCard';
 import ConnectWallet from '../../ConnectWallet';
 import { useDexStore } from '../../store';
 
-type CardContainerProps = {
-  card: CardType;
-  setCard: Dispatch<SetStateAction<CardType>>;
-  selectedToken: TokenType;
-};
-
-export default function CardContainer({ card, setCard, selectedToken }: CardContainerProps) {
+export default function CardContainer() {
   const account = useDexStore((state) => state.account);
+  const card = useDexStore((state) => state.currentCard);
+  const setCard = useDexStore((state) => state.setCurrentCard);
 
   const renderCard = (card: CardType) => {
     switch (card) {
       case WALLET:
-        return <WalletCard setCard={setCard} selectedToken={selectedToken} />;
+        return <WalletCard />;
       case TRADE:
-        return <TradeCard selectedToken={selectedToken} />;
+        return <TradeCard />;
       case ORDER:
         return <OrderCard />;
       case PRICE:
         return <PriceCard />;
       case DEPOSIT:
-        return <DepositCard selectedToken={selectedToken} onBack={() => setCard(WALLET)} />;
+        return <DepositCard onBack={() => setCard(WALLET)} />;
       case WITHDRAW:
-        return <WithdrawCard selectedToken={selectedToken} onBack={() => setCard(WALLET)} />;
+        return <WithdrawCard onBack={() => setCard(WALLET)} />;
     }
   };
   return (
-    <div className="flex text-primary-50 flex-1 p-8 w-full bg-gradient-to-br rounded-[50px] from-primary-500 from-60% to-primary-300">
+    <div className="flex text-primary-50 flex-grow p-8 w-full bg-gradient-to-br rounded-[50px] from-primary-500 from-60% overflow-hidden to-primary-300">
       {account ? renderCard(card) : <ConnectWallet />}
     </div>
   );

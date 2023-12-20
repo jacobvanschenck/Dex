@@ -1,12 +1,12 @@
-import { TokenType } from '../../types';
+import { useDexStore } from '../../store';
 import { PrimaryButton } from '../shared/PrimaryButton';
 
 type WithdrawCardProps = {
-  selectedToken: TokenType;
   onBack: () => void;
 };
 
-export default function WithdrawCard({ onBack, selectedToken }: WithdrawCardProps) {
+export default function WithdrawCard({ onBack }: WithdrawCardProps) {
+  const selectedToken = useDexStore((state) => state.selectedToken);
   return (
     <div className="flex flex-col justify-between">
       <button className="flex w-fit" onClick={onBack}>

@@ -1,4 +1,3 @@
-import { TokenType } from '../types';
 import { AreaSeries, GradientDefs, HorizontalGridLines, LineSeries, XAxis, XYPlot, YAxis } from 'react-vis';
 import { Trade, getDexRead, getDexTradeEvents } from '../utils';
 import { useDexStore } from '../store';
@@ -6,17 +5,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { PublicClient, pad } from 'viem';
 import { TICKER } from '../consts';
 
-type TradeChartProps = {
-  selectedToken: TokenType;
-};
-
-export default function TradeChart({ selectedToken }: TradeChartProps) {
+export default function TradeChart() {
+  const selectedToken = useDexStore((state) => state.selectedToken);
   const publicClient = useDexStore((state) => state.publicClient);
   const [trades, setTrades] = useState<Array<Trade>>();
   const [data, setData] = useState<Array<{ x: number; y: number }>>();
   const [ticks, setTicks] = useState<Array<string>>();
 
-  const getDex = useCallback(
+  const getDexTrades = useCallback(
     async (client: PublicClient) => {
       try {
         const dex = await getDexRead(client);
@@ -48,13 +44,10 @@ export default function TradeChart({ selectedToken }: TradeChartProps) {
     );
   }, [trades]);
 
-  console.log('data', data);
-  console.log('ticks', ticks);
-
   useEffect(() => {
     if (!publicClient) return;
-    getDex(publicClient);
-  }, [getDex, publicClient]);
+    getDexTrades(publicClient);
+  }, [getDexTrades, publicClient]);
 
   if (!data) return null;
 

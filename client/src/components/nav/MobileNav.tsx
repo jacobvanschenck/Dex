@@ -1,13 +1,10 @@
-import { Dispatch, SetStateAction } from 'react';
 import NavButton from './NavButton';
-import { CardType, DEPOSIT, ORDER, PRICE, TRADE, WALLET, WITHDRAW } from '../../types';
+import { DEPOSIT, ORDER, PRICE, TRADE, WALLET, WITHDRAW } from '../../types';
+import { useDexStore } from '../../store';
 
-type MobileNavProps = {
-  currentCard: CardType;
-  setCurrentCard: Dispatch<SetStateAction<CardType>>;
-};
-
-export default function MobileNav({ currentCard, setCurrentCard }: MobileNavProps) {
+export default function MobileNav() {
+  const currentCard = useDexStore((state) => state.currentCard);
+  const setCurrentCard = useDexStore((state) => state.setCurrentCard);
   return (
     <div className="flex gap-2 p-2 bg-gray-800 rounded-[50px]">
       <NavButton
