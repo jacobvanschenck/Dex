@@ -9,7 +9,7 @@
 - [x] Public Client ENV vars on netlify
 - [ ] Fix Chart x axis (fallback?)
 - [ ] Trade Card functionality
-- [ ] Orders List
+- [x] Orders List
 - [x] Prices List
 - [ ] Transition Everything
 - [ ] Update Github readme

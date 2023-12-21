@@ -2,11 +2,7 @@ import { useState } from 'react';
 import Pill from '../Pill';
 import { PrimaryButton } from '../shared/PrimaryButton';
 import { useDexStore } from '../../store';
-
-const BUY = 'BUY';
-const SELL = 'SELL';
-const MARKET = 'MARKET';
-const LIMIT = 'LIMIT';
+import { BUY, LIMIT, MARKET, SELL } from '../../consts';
 
 export default function TradeCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);

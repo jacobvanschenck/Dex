@@ -7,7 +7,7 @@ import WalletProvider from './components/providers/WalletProvider';
 
 export default function AppLayout() {
   return (
-    <div className="flex flex-col gap-4 items-center py-7 px-3 h-screen font-sans text-neutral-100 bg-neutral-900">
+    <div className="flex flex-col gap-4 items-center py-7 px-3 font-sans h-[100dvh] text-neutral-100 bg-neutral-900">
       <div className="py-6 text-4xl font-light uppercase">
         Tsunami<span className="font-extrabold">Trades</span>
       </div>

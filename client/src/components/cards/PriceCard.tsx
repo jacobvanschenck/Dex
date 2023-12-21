@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDexStore } from '../../store';
-import { getDexRead, getDexTradeEvents, Trade } from '../../utils';
+import { Trade, getDexRead, getDexTradeEvents, getRelativeDateFromBlockTimestamp } from '../../utils';
 import { PublicClient, pad } from 'viem';
 import { TICKER } from '../../consts';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { SyncLoader } from 'react-spinners';
-dayjs.extend(relativeTime);
 
 export default function PriceCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);
@@ -24,11 +21,10 @@ export default function PriceCard() {
             logs
               .filter((log) => log.args.ticker === pad(TICKER[selectedToken], { dir: 'right' }))
               .map((l) => {
-                const date = dayjs(parseInt(l.args.date) * 1000).fromNow();
                 return {
-                  amount: l.args.amount?.toString(),
-                  price: l.args.price?.toString(),
-                  date,
+                  amount: l.args.amount?.toString() ?? 'missing',
+                  price: l.args.price?.toString() ?? 'missing',
+                  date: getRelativeDateFromBlockTimestamp(l.args.date),
                 };
               }),
           );

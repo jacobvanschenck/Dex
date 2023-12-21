@@ -13,6 +13,9 @@ import {
 } from 'viem';
 import { goerli, mainnet, sepolia } from 'viem/chains';
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 export type DexContractRead = GetContractReturnType<typeof DexAbi, PublicClient>;
 export type DexContractReadWrite = GetContractReturnType<typeof DexAbi, PublicClient, WalletClient>;
@@ -23,26 +26,18 @@ export type TokenStructType = {
   name: string;
 };
 export type Order = {
-  id: bigint;
+  amount: string;
+  filled: string;
+  price: string;
+  date: string;
   trader: Address;
-  side: bigint;
-  ticker: Address;
-  amount: bigint;
-  filled: bigint;
-  price: bigint;
-  date: bigint;
 };
-// export type Trade = {
-//   tradeId: bigint;
-//   orderId: bigint;
-//   ticker: Address;
-//   trader1: Address;
-//   trader2: Address;
-//   amount: bigint;
-//   price: bigint;
-//   date: bigint;
-// };
-//
+
+export type Trade = {
+  amount: string;
+  price: string;
+  date: string;
+};
 
 export const getDexRead = async (publicClient: PublicClient): Promise<DexContractRead> => {
   return getContract({
@@ -147,4 +142,8 @@ export function isIOS(): boolean {
 
 export function isMobile(): boolean {
   return isAndroid() || isIOS();
+}
+
+export function getRelativeDateFromBlockTimestamp(timestamp: bigint | undefined) {
+  return dayjs(Number(timestamp) * 1000).fromNow();
 }

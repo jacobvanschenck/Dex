@@ -35,3 +35,18 @@ export const TICKER: Record<string, Address> = {
   [REP]: REP_TICKER,
   [ZRX]: ZRX_TICKER,
 };
+
+// TRADES
+export const BUY = 'BUY';
+export const SELL = 'SELL';
+export const MARKET = 'MARKET';
+export const LIMIT = 'LIMIT';
+
+// ORDERS
+export const ALL_ORDERS = 'ALL_ORDERS';
+export const MY_ORDERS = 'MY_ORDERS';
+
+export const SIDE = {
+  BUY: 0,
+  SELL: 1,
+};
