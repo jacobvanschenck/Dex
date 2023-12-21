@@ -10,6 +10,7 @@
 - [ ] Fix Chart x axis (fallback?)
 - [ ] Trade Card functionality
 - [ ] Orders List
+- [x] Prices List
 - [ ] Transition Everything
 - [ ] Update Github readme
 - [x] Change favicon
