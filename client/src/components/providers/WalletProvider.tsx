@@ -1,11 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import { getEthereumProvider } from '../../utils';
 import { useDexStore } from '../../store';
+import { Address, formatEther } from 'viem';
 
 export default function WalletProvider() {
+  const publicClient = useDexStore((state) => state.publicClient);
   const provider = useDexStore((state) => state.provider);
   const setProvider = useDexStore((state) => state.setProvider);
   const account = useDexStore((state) => state.account);
+  const setBalance = useDexStore((state) => state.setBalance);
   const setAccount = useDexStore((state) => state.setAccount);
   const reconnect = useDexStore((state) => state.reconnect);
   const disconnect = useDexStore((state) => state.disconnect);
@@ -44,14 +47,20 @@ export default function WalletProvider() {
   //Add listeners
   useEffect(() => {
     if (!provider) return;
-    const onConnect = () => {
+    const onConnect = async () => {
       console.log('connect event');
-      setAccount(provider.accounts[0]);
+      const address = provider.accounts[0] as Address;
+      setAccount(address);
+      const balance = await publicClient.getBalance({ address });
+      setBalance(formatEther(balance).slice(0, 5));
     };
 
-    const onAccountsChanged = () => {
+    const onAccountsChanged = async () => {
       console.log('accountsChanged event');
-      setAccount(provider.accounts[0]);
+      const address = provider.accounts[0] as Address;
+      setAccount(address);
+      const balance = await publicClient.getBalance({ address });
+      setBalance(formatEther(balance).slice(0, 5));
     };
 
     const onDisconnect = () => {
@@ -68,7 +77,7 @@ export default function WalletProvider() {
       provider.removeListener('accountsChanged', onAccountsChanged);
       provider.removeListener('disconnect', onDisconnect);
     };
-  }, [provider, disconnectFunc, getProvider, setAccount]);
+  }, [publicClient, setBalance, provider, disconnectFunc, getProvider, setAccount]);
 
   return null;
 }

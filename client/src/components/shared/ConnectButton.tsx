@@ -1,21 +1,15 @@
-import { useCallback } from 'react';
 import { useDexStore } from '../../store';
-import { minidenticon } from 'minidenticons';
+import Avatar from '../Avatar';
 
 export default function ConnectButton() {
   const setActionSheetOpen = useDexStore((state) => state.setActionSheetOpen);
   const account = useDexStore((state) => state.account);
-
-  const createAvatar = useCallback((username: string) => {
-    const res = minidenticon(username);
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(res);
-  }, []);
+  const balance = useDexStore((state) => state.balance);
 
   return account ? (
     <button onClick={() => setActionSheetOpen(true)} className="flex gap-2 items-center px-5 rounded-[50px]">
-      <div className="rounded-full bg-neutral-50">
-        <img width={40} height={40} alt="" src={createAvatar(account)} />
-      </div>
+      <p className="font-bold">{balance} SepoliaETH</p>
+      <Avatar username={account} />
       <p className="hidden text-lg font-bold md:block">{account.slice(0, 4) + '...' + account.slice(-4)}</p>
       <svg
         xmlns="http://www.w3.org/2000/svg"

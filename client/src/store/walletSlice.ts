@@ -8,7 +8,9 @@ export type WalletSlice = {
   provider: Provider | null;
   setProvider: (provider: Provider) => void;
   account: Address | null;
-  setAccount: (account: string | null) => void;
+  setAccount: (account: Address | null) => void;
+  balance: string | null;
+  setBalance: (balance: string | null) => void;
   connect: () => Promise<void>;
   reconnect: () => Promise<void>;
   disconnect: () => Promise<void>;
@@ -21,7 +23,9 @@ export const createWalletSlice: StateCreator<WalletSlice> = (set, get) => ({
   provider: null,
   setProvider: (provider: Provider) => set({ provider }),
   account: null,
-  setAccount: (account: string | null) => set({ account }),
+  setAccount: (account: Address | null) => set({ account }),
+  balance: null,
+  setBalance: (balance: string | null) => set({ balance }),
   connect: async () => {
     const provider = get().provider;
     const isConnected = get().isConnected;
@@ -29,7 +33,7 @@ export const createWalletSlice: StateCreator<WalletSlice> = (set, get) => ({
     if (!isConnected) {
       await provider.connect();
       window.localStorage.setItem('dex.connected', JSON.stringify(true));
-      set({ account: provider.accounts[0], isConnected: true });
+      set({ account: provider.accounts[0] as Address, isConnected: true });
     }
   },
   reconnect: async () => {
@@ -38,7 +42,7 @@ export const createWalletSlice: StateCreator<WalletSlice> = (set, get) => ({
     if (!provider) return;
     if (isConnected) {
       const accounts = await provider.enable();
-      set({ account: accounts[0] });
+      set({ account: accounts[0] as Address });
     }
   },
   disconnect: async () => {
