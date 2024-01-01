@@ -2,15 +2,19 @@
 
 - [x] Connect Wallet Client (reconnect through local storage if available)
   - [x] Show Connect Wallet Card otherwise
-  - [ ] Add Connect Wallet Card, Separate Deposit Card
-- [ ] Desktop Mode
-  - [ ] Connect Modal
-  - [ ] Layout
+  - [x] Add Connect Wallet Card, Separate Deposit Card
+- [x] Desktop Mode
+  - [x] Connect Modal
+  - [x] Layout
 - [x] Public Client ENV vars on netlify
-- [ ] Fix Chart x axis (fallback?)
+- [x] Fix Chart x axis
 - [ ] Trade Card functionality
+- [ ] Deposit / Withdraw functionality
 - [x] Orders List
 - [x] Prices List
 - [ ] Transition Everything
+- [x] Better fallbacks everywhere (Chart DAI, Chart Loading, Lists Loading)
 - [ ] Update Github readme
+- [ ] Clean up files and packages
 - [x] Change favicon
+- [ ] Tutorial Modal, help icon top right?

@@ -23,7 +23,7 @@
     "react-moment": "^1.1.3",
     "react-qr-code": "^2.0.12",
     "react-spinners": "^0.13.8",
-    "react-vis": "^1.12.1",
+    "recharts": "^2.10.3",
     "viem": "^1.19.13",
     "zustand": "^4.4.7"
   },

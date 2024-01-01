@@ -37,8 +37,8 @@ export const TICKER: Record<string, Address> = {
 };
 
 // TRADES
-export const BUY = 'BUY';
-export const SELL = 'SELL';
+export const BUY = 0;
+export const SELL = 1;
 export const MARKET = 'MARKET';
 export const LIMIT = 'LIMIT';
 

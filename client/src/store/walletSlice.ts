@@ -1,5 +1,5 @@
 import Provider from '@walletconnect/ethereum-provider';
-import { PublicClient, WalletClient } from 'viem';
+import { Address, PublicClient, WalletClient } from 'viem';
 import { StateCreator } from 'zustand';
 import { getPublicClient } from '../utils';
 
@@ -7,7 +7,7 @@ export type WalletSlice = {
   isConnected: boolean;
   provider: Provider | null;
   setProvider: (provider: Provider) => void;
-  account: string | null;
+  account: Address | null;
   setAccount: (account: string | null) => void;
   connect: () => Promise<void>;
   reconnect: () => Promise<void>;

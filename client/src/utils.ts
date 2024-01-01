@@ -18,7 +18,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 export type DexContractRead = GetContractReturnType<typeof DexAbi, PublicClient>;
-export type DexContractReadWrite = GetContractReturnType<typeof DexAbi, PublicClient, WalletClient>;
+export type DexContractWrite = GetContractReturnType<typeof DexAbi, WalletClient>;
 export type TokenContract = GetContractReturnType<typeof TokenAbi, PublicClient, WalletClient>;
 export type TokenStructType = {
   tokenAddress: Address;
@@ -50,12 +50,12 @@ export const getDexRead = async (publicClient: PublicClient): Promise<DexContrac
 export const getDexReadWrite = async (
   publicClient: PublicClient,
   walletClient: WalletClient,
-): Promise<DexContractRead> => {
+): Promise<DexContractWrite> => {
   const dex = getContract({
     address: '0xe3B970200669bB3258886e0a8E5c97504d93ba31',
     abi: DexAbi,
-    publicClient,
     walletClient,
+    publicClient,
   });
   return dex;
 };

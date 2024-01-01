@@ -2,9 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { Order, getDexRead, getRelativeDateFromBlockTimestamp } from '../../utils';
 import { useDexStore } from '../../store';
 import Pill from '../Pill';
-import { BUY, SELL, MY_ORDERS, ALL_ORDERS, SIDE, TICKER } from '../../consts';
+import { MY_ORDERS, ALL_ORDERS, SIDE, TICKER } from '../../consts';
 import { PublicClient, pad } from 'viem';
 import { SyncLoader } from 'react-spinners';
+
+const BUY = 'BUY';
+const SELL = 'SELL';
 
 export default function OrderCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);
@@ -58,7 +61,8 @@ export default function OrderCard() {
     );
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
+      <p className="hidden text-4xl font-bold md:flex md:pb-2 text-primary-50">Orders</p>
       <div className="flex gap-2">
         <div className="flex gap-1 p-2 grow bg-primary-800 rounded-[50px]">
           <Pill
@@ -80,27 +84,29 @@ export default function OrderCard() {
           <p className="w-1/4 leading-5 text-primary-50">Price</p>
           <p className="w-1/4 leading-5 text-primary-50">Date</p>
         </div>
-        <ul role="list" className="overflow-y-auto w-full divide-y divide-primary-300">
-          {orders[side]
-            .filter((o) => orderFilter === ALL_ORDERS || o.trader === account)
-            .map((order, i) => (
-              <li key={i} className="flex items-baseline py-3">
-                <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
-                  {order.amount}
-                  <span className="text-xs font-medium text-primary-200"> {selectedToken}</span> /
-                </p>
-                <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
-                  {order.filled}
-                  <span className="text-xs font-medium text-primary-200"> {selectedToken}</span>
-                </p>
-                <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
-                  {order.price}
-                  <span className="text-xs font-medium text-primary-200"> {selectedToken}/DAI</span>
-                </p>
-                <p className="w-1/4 text-xs leading-5 text-primary-200">{order.date}</p>
-              </li>
-            ))}
-        </ul>
+        {selectedToken !== 'DAI' && (
+          <ul role="list" className="overflow-y-auto w-full divide-y divide-primary-300">
+            {orders[side]
+              .filter((o) => orderFilter === ALL_ORDERS || o.trader === account)
+              .map((order, i) => (
+                <li key={i} className="flex items-baseline py-3">
+                  <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
+                    {order.amount}
+                    <span className="text-xs font-medium text-primary-200"> {selectedToken}</span> /
+                  </p>
+                  <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
+                    {order.filled}
+                    <span className="text-xs font-medium text-primary-200"> {selectedToken}</span>
+                  </p>
+                  <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
+                    {order.price}
+                    <span className="text-xs font-medium text-primary-200"> {selectedToken}/DAI</span>
+                  </p>
+                  <p className="w-1/4 text-xs leading-5 text-primary-200">{order.date}</p>
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
     </div>
   );

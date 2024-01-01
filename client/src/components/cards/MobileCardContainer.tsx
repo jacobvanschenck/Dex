@@ -7,8 +7,9 @@ import WalletCard from './WalletCard';
 import WithdrawCard from './WithdrawCard';
 import ConnectWallet from '../../ConnectWallet';
 import { useDexStore } from '../../store';
+import GradientCardWrapper from './GradientCardWrapper';
 
-export default function CardContainer() {
+export default function MobileCardContainer() {
   const account = useDexStore((state) => state.account);
   const card = useDexStore((state) => state.currentCard);
   const setCard = useDexStore((state) => state.setCurrentCard);
@@ -16,9 +17,9 @@ export default function CardContainer() {
   const renderCard = (card: CardType) => {
     switch (card) {
       case WALLET:
-        return <WalletCard />;
+        return account ? <WalletCard /> : <ConnectWallet />;
       case TRADE:
-        return <TradeCard />;
+        return account ? <TradeCard /> : <ConnectWallet />;
       case ORDER:
         return <OrderCard />;
       case PRICE:
@@ -29,9 +30,5 @@ export default function CardContainer() {
         return <WithdrawCard onBack={() => setCard(WALLET)} />;
     }
   };
-  return (
-    <div className="flex text-primary-50 flex-grow p-8 w-full bg-gradient-to-br rounded-[50px] from-primary-500 from-60% overflow-hidden to-primary-300">
-      {account ? renderCard(card) : <ConnectWallet />}
-    </div>
-  );
+  return <GradientCardWrapper className="md:hidden">{renderCard(card)}</GradientCardWrapper>;
 }

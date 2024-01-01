@@ -6,7 +6,7 @@ export default function MobileNav() {
   const currentCard = useDexStore((state) => state.currentCard);
   const setCurrentCard = useDexStore((state) => state.setCurrentCard);
   return (
-    <div className="flex gap-2 p-2 bg-gray-800 rounded-[50px]">
+    <div className="flex gap-2 p-2 bg-gray-800 md:hidden rounded-[50px]">
       <NavButton
         isSelected={currentCard === WALLET || currentCard === DEPOSIT || currentCard === WITHDRAW}
         onClick={() => setCurrentCard(WALLET)}
