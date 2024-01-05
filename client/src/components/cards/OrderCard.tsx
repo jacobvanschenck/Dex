@@ -62,52 +62,46 @@ export default function OrderCard() {
 
   return (
     <div className="flex flex-col w-full">
-      <p className="hidden text-4xl font-bold md:flex md:pb-2 text-primary-50">Orders</p>
+      <p className="pb-2 text-2xl font-bold md:text-3xl text-primary-50">Orders</p>
       <div className="flex gap-2">
         <div className="flex gap-1 p-2 grow bg-primary-800 rounded-[50px]">
-          <Pill
-            caption="All Orders"
-            isSelected={orderFilter === ALL_ORDERS}
-            onClick={() => setOrderFilter(ALL_ORDERS)}
-          />
-          <Pill caption="My Orders" isSelected={orderFilter === MY_ORDERS} onClick={() => setOrderFilter(MY_ORDERS)} />
+          <Pill caption="All" isSelected={orderFilter === ALL_ORDERS} onClick={() => setOrderFilter(ALL_ORDERS)} />
+          <Pill caption="Mine" isSelected={orderFilter === MY_ORDERS} onClick={() => setOrderFilter(MY_ORDERS)} />
         </div>
         <div className="flex flex-1 gap-1 p-2 bg-primary-800 rounded-[50px]">
           <Pill caption="Buy" isSelected={side === BUY} onClick={() => setSide(BUY)} />
           <Pill caption="Sell" isSelected={side === SELL} onClick={() => setSide(SELL)} />
         </div>
       </div>
-      <div className="flex flex-col justify-end items-start px-4 w-full">
-        <div className="flex py-3 w-full border-b-[1px] border-b-primary-300">
-          <p className="w-1/4 leading-5 text-primary-50">Amount /</p>
-          <p className="w-1/4 leading-5 text-primary-50">Filled</p>
-          <p className="w-1/4 leading-5 text-primary-50">Price</p>
-          <p className="w-1/4 leading-5 text-primary-50">Date</p>
-        </div>
-        {selectedToken !== 'DAI' && (
-          <ul role="list" className="overflow-y-auto w-full divide-y divide-primary-300">
-            {orders[side]
-              .filter((o) => orderFilter === ALL_ORDERS || o.trader === account)
-              .map((order, i) => (
-                <li key={i} className="flex items-baseline py-3">
-                  <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
-                    {order.amount}
-                    <span className="text-xs font-medium text-primary-200"> {selectedToken}</span> /
-                  </p>
-                  <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
-                    {order.filled}
-                    <span className="text-xs font-medium text-primary-200"> {selectedToken}</span>
-                  </p>
-                  <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
-                    {order.price}
-                    <span className="text-xs font-medium text-primary-200"> {selectedToken}/DAI</span>
-                  </p>
-                  <p className="w-1/4 text-xs leading-5 text-primary-200">{order.date}</p>
-                </li>
-              ))}
-          </ul>
-        )}
+      <div className="flex py-3 w-full whitespace-nowrap border-b-[1px] border-b-primary-300">
+        <p className="w-1/4 leading-5 text-primary-50">Amount</p>
+        <p className="w-1/4 leading-5 text-primary-50">Filled</p>
+        <p className="w-1/4 leading-5 text-primary-50">Price</p>
+        <p className="w-1/4 leading-5 text-primary-50">Date</p>
       </div>
+      {selectedToken !== 'DAI' && (
+        <ul role="list" className="overflow-y-auto w-full divide-y divide-primary-300">
+          {orders[side]
+            .filter((o) => orderFilter === ALL_ORDERS || o.trader === account)
+            .map((order, i) => (
+              <li key={i} className="flex items-baseline py-3">
+                <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
+                  {order.amount}
+                  <span className="text-xs font-medium text-primary-200"> {selectedToken}</span>
+                </p>
+                <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
+                  {order.filled}
+                  <span className="text-xs font-medium text-primary-200"> {selectedToken}</span>
+                </p>
+                <p className="w-1/4 text-lg font-bold leading-5 text-primary-50">
+                  {order.price}
+                  <span className="text-xs font-medium text-primary-200"> {selectedToken}/DAI</span>
+                </p>
+                <p className="w-1/4 text-xs leading-5 text-primary-200">{order.date}</p>
+              </li>
+            ))}
+        </ul>
+      )}
     </div>
   );
 }

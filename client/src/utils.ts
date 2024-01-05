@@ -97,6 +97,7 @@ export function getPublicClient() {
 }
 
 export function getWalletClient({ provider }: { provider: any & { request(...args: any): Promise<any> } }) {
+  console.log(provider);
   return createWalletClient({
     chain: sepolia,
     transport: custom(provider),

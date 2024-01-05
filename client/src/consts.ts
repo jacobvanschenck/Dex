@@ -1,19 +1,19 @@
 import { Address } from 'viem';
 import { BAT, DAI, REP, ZRX } from './types';
 
-const rainbowWallet = {
-  url: 'rainbow://wc?uri=',
-  icon: '/img/rainbowWallet.svg',
-  name: 'Rainbow',
-  iconBackground: '#0c2f78',
-};
+// const rainbowWallet = {
+//   url: 'rainbow://wc?uri=',
+//   icon: '/img/rainbowWallet.svg',
+//   name: 'Rainbow',
+//   iconBackground: '#0c2f78',
+// };
 
-const trustWallet = {
-  url: 'trust://wc?uri=',
-  icon: '/img/trustWallet.svg',
-  name: 'Trust',
-  iconBackground: '#fff',
-};
+// const trustWallet = {
+//   url: 'trust://wc?uri=',
+//   icon: '/img/trustWallet.svg',
+//   name: 'Trust',
+//   iconBackground: '#fff',
+// };
 
 const metaMaskWallet = {
   url: 'metamask://wc?uri=',
@@ -22,7 +22,8 @@ const metaMaskWallet = {
   iconBackground: '#fff',
 };
 
-export const mobileWallets = [rainbowWallet, trustWallet, metaMaskWallet];
+// export const mobileWallets = [rainbowWallet, trustWallet, metaMaskWallet];
+export const mobileWallets = [metaMaskWallet];
 
 export const DAI_TICKER = '0x444149';
 export const BAT_TICKER = '0x424154';

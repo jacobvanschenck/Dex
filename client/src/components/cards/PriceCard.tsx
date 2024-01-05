@@ -50,7 +50,7 @@ export default function PriceCard() {
 
   return (
     <div className="flex flex-col items-start px-4 w-full">
-      <p className="hidden text-4xl font-bold md:flex md:pb-2 text-primary-50">Prices</p>
+      <p className="pb-2 text-2xl font-bold md:text-3xl text-primary-50">Prices</p>
       <div className="flex py-3 w-full border-b-[1px] border-b-primary-300">
         <p className="w-1/3 leading-5 text-primary-50">Amount</p>
         <p className="w-1/3 leading-5 text-primary-50">Price</p>
@@ -68,7 +68,7 @@ export default function PriceCard() {
                 {trade.price}
                 <span className="text-xs font-medium text-primary-200"> {selectedToken}/DAI</span>
               </p>
-              <p className="w-1/3 leading-5 text-primary-200">{trade.date}</p>
+              <p className="w-1/3 text-xs leading-5 text-primary-200">{trade.date}</p>
             </li>
           ))}
         </ul>

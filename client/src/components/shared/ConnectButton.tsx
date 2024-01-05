@@ -23,7 +23,10 @@ export default function ConnectButton() {
       </svg>
     </button>
   ) : (
-    <button className="py-4 px-5 font-bold bg-violet-500 rounded-[50px] h-fit" onClick={() => setActionSheetOpen(true)}>
+    <button
+      className="py-4 px-5 text-xs font-bold bg-violet-500 rounded-[50px] h-fit md:text-md"
+      onClick={() => setActionSheetOpen(true)}
+    >
       Connect Wallet
     </button>
   );
