@@ -40,8 +40,8 @@ export const createWalletSlice: StateCreator<WalletSlice> = (set, get) => ({
     const provider = get().provider;
     if (!provider) return;
 
-    const wcConnected = JSON.parse(window.localStorage.getItem('dex.wc_connected'));
-    const metaConnected = JSON.parse(window.localStorage.getItem('dex.metamask_connected'));
+    const wcConnected = JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null');
+    const metaConnected = JSON.parse(window.localStorage.getItem('dex.metamask_connected') || 'null');
 
     if (wcConnected) {
       window.localStorage.setItem('dex.wc_connected', JSON.stringify(false));

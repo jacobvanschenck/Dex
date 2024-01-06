@@ -7,7 +7,7 @@ export default function TokenPillsContainer() {
   const setSelectedToken = useDexStore((state) => state.setSelectedToken);
 
   return (
-    <div className="flex gap-1 p-2 w-full bg-gray-800 rounded-[50px]">
+    <div className="hidden gap-1 p-2 w-full bg-gray-800 md:flex rounded-[50px]">
       {TOKENS.map((t, i) => (
         <TokenButton key={i} token={t} isSelected={selectedToken === t} setSelectedToken={setSelectedToken} />
       ))}

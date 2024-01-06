@@ -15,3 +15,9 @@ export const ZRX = 'ZRX';
 
 export type TokenType = typeof DAI | typeof BAT | typeof REP | typeof ZRX;
 export const TOKENS = [DAI, BAT, REP, ZRX] as const;
+
+// SHEETS
+export const ACCOUNT_SHEET = 'account_sheet';
+export const TOKEN_SHEET = 'token_sheet';
+
+export type SheetType = typeof ACCOUNT_SHEET | typeof TOKEN_SHEET;

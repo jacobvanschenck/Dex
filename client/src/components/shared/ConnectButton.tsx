@@ -1,14 +1,15 @@
 import { useDexStore } from '../../store';
+import { ACCOUNT_SHEET } from '../../types';
 import Avatar from '../Avatar';
 
 export default function ConnectButton() {
-  const setActionSheetOpen = useDexStore((state) => state.setActionSheetOpen);
+  const displayActionSheet = useDexStore((state) => state.displayActionSheet);
   const account = useDexStore((state) => state.account);
   const balance = useDexStore((state) => state.balance);
 
   return account ? (
-    <button onClick={() => setActionSheetOpen(true)} className="flex gap-2 items-center px-5 rounded-[50px]">
-      <p className="font-bold">{balance} SepoliaETH</p>
+    <button onClick={() => displayActionSheet(ACCOUNT_SHEET)} className="flex gap-2 items-center rounded-[50px]">
+      <p className="hidden font-bold md:block">{balance} SepoliaETH</p>
       <Avatar username={account} />
       <p className="hidden text-lg font-bold md:block">{account.slice(0, 4) + '...' + account.slice(-4)}</p>
       <svg
@@ -24,10 +25,10 @@ export default function ConnectButton() {
     </button>
   ) : (
     <button
-      className="py-4 px-5 text-xs font-bold bg-violet-500 rounded-[50px] h-fit md:text-md"
-      onClick={() => setActionSheetOpen(true)}
+      className="flex gap-1 py-4 px-5 text-xs font-bold bg-violet-500 rounded-[50px] h-fit md:text-md"
+      onClick={() => displayActionSheet(ACCOUNT_SHEET)}
     >
-      Connect Wallet
+      Connect<span className="hidden md:block"> Wallet</span>
     </button>
   );
 }

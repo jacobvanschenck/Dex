@@ -7,11 +7,14 @@ type PrimaryButtonProps = {
   asyncAction?: () => Promise<void>;
   action?: () => void;
   type?: 'button' | 'submit';
+  active?: boolean;
 };
+
 export function PrimaryButton({
   action = undefined,
   asyncAction = undefined,
   type = 'button',
+  active = false,
   disabled,
   children,
 }: PrimaryButtonProps) {
@@ -19,7 +22,9 @@ export function PrimaryButton({
   return (
     <button
       type={type}
-      className="flex gap-2 justify-center items-center py-4 px-5 font-bold w-fit bg-neutral-800 rounded-[50px] text-primary-50 disabled:bg-slate-200"
+      className={`flex gap-2 justify-center items-center py-4 px-5 font-bold w-fit bg-neutral-800 rounded-[50px] text-primary-50 disabled:bg-slate-200 transition-all duration-200 active:none ${
+        active && 'outline outline-2 outline-offset-4 outline-neutral-100'
+      }`}
       disabled={loading || disabled}
       onClick={async () => {
         if (!action && !asyncAction) return;

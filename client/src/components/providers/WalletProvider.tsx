@@ -14,8 +14,8 @@ export default function WalletProvider() {
   const disconnect = useDexStore((state) => state.disconnect);
   const setWalletClient = useDexStore((state) => state.setWalletClient);
 
-  const wcConnected = JSON.parse(window.localStorage.getItem('dex.wc_connected') ?? '');
-  const metaConnected = JSON.parse(window.localStorage.getItem('dex.metamask_connected') ?? '');
+  const wcConnected = JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null');
+  const metaConnected = JSON.parse(window.localStorage.getItem('dex.metamask_connected') || 'null');
 
   useEthereumProviderEvents(provider, {
     onConnect: async (provider) => {

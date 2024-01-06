@@ -1,6 +1,7 @@
+import Provider from '@walletconnect/ethereum-provider';
 import { useEffect } from 'react';
 
-export default function useEthereumProviderEvents<TProvider>(
+export default function useEthereumProviderEvents<TProvider extends Provider>(
   provider: TProvider,
   {
     onConnect,

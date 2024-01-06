@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getEthereumProvider, isMobile } from '../../utils';
+import { isMobile } from '../../utils';
 import QRCode from 'react-qr-code';
 import { mobileWallets } from '../../consts';
 import { useDexStore } from '../../store';
@@ -97,7 +97,7 @@ export default function WalletConnectActionSheet() {
         <div className="flex flex-col gap-8 items-center">
           <p className="text-lg font-bold">Choose your wallet app</p>
           <div className="flex gap-4 justify-between">
-            <div className="flex flex-col gap-2 items-center stroke-neutral-400">
+            <div className="hidden flex-col gap-2 items-center md:flex stroke-neutral-400">
               <div className="flex gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

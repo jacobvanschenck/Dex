@@ -30,5 +30,5 @@ export default function MobileCardContainer() {
         return <WithdrawCard onBack={() => setCard(WALLET)} />;
     }
   };
-  return <GradientCardWrapper className="md:hidden h-[360px]">{renderCard(card)}</GradientCardWrapper>;
+  return <GradientCardWrapper className="md:hidden md:h-[360px]">{renderCard(card)}</GradientCardWrapper>;
 }
