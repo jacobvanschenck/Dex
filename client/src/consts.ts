@@ -51,7 +51,3 @@ export const SIDE = {
   BUY: 0,
   SELL: 1,
 };
-
-// SHEETS
-export const ACCOUNT_SHEET = 'account_sheet';
-export const TOKEN_SHEET = 'token_sheet';

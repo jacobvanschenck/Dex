@@ -42,7 +42,7 @@ export default function AppLayout() {
           <ConnectButton />
         </div>
       </nav>
-      <div className="flex overflow-y-auto flex-col gap-4 w-full h-full md:flex-row md:gap-8">
+      <div className="flex overflow-y-auto overflow-x-hidden flex-col gap-4 w-full h-full md:flex-row md:gap-8">
         <div className="flex flex-col gap-4 w-full md:gap-8">
           <TradeChart />
           <div className="hidden md:flex md:gap-8">
