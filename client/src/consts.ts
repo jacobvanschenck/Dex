@@ -40,10 +40,10 @@ export const TOKEN_ADDRESS: Record<TokenType, Address> = {
 };
 
 // TICKERS
-export const DAI_TICKER = '0x444149';
-export const BAT_TICKER = '0x424154';
-export const REP_TICKER = '0x524550';
-export const ZRX_TICKER = '0x5a5258';
+const DAI_TICKER = '0x444149';
+const BAT_TICKER = '0x424154';
+const REP_TICKER = '0x524550';
+const ZRX_TICKER = '0x5a5258';
 
 export const TICKER: Record<TokenType, Address> = {
   [DAI]: DAI_TICKER,

@@ -15,7 +15,8 @@
 - [ ] Transition Everything
 - [x] Better fallbacks everywhere (Chart DAI, Chart Loading, Lists Loading)
 - [ ] Update Github readme
-- [ ] Clean up files and packages
+- [x] Clean up files and packages
 - [x] Change favicon
 - [ ] Tutorial Modal, help icon top right?
+- [ ] Simple toast form validation
 - [x] Toasts

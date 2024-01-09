@@ -6,8 +6,6 @@ import {
   PublicClient,
   WalletClient,
   createPublicClient,
-  createWalletClient,
-  custom,
   formatEther,
   getContract,
   http,
@@ -21,12 +19,6 @@ dayjs.extend(relativeTime);
 
 export type DexContractRead = GetContractReturnType<typeof DexAbi, PublicClient>;
 export type DexContractWrite = GetContractReturnType<typeof DexAbi, WalletClient>;
-export type TokenContract = GetContractReturnType<typeof TokenAbi, PublicClient, WalletClient>;
-export type TokenStructType = {
-  tokenAddress: Address;
-  ticker: Address;
-  name: string;
-};
 export type Order = {
   amount: string;
   filled: string;
@@ -43,7 +35,7 @@ export type Trade = {
 
 export const getDexRead = async (publicClient: PublicClient): Promise<DexContractRead> => {
   return getContract({
-    address: '0xe3B970200669bB3258886e0a8E5c97504d93ba31',
+    address: DEX_ADDRESS,
     abi: DexAbi,
     publicClient,
   });
@@ -73,20 +65,6 @@ export const getDexTradeEvents = async (client: PublicClient, dex: DexContractRe
   return logs;
 };
 
-export const getTokenReadWrite = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  tokenAddress: Address,
-) => {
-  const token = getContract({
-    address: tokenAddress,
-    abi: TokenAbi,
-    publicClient,
-    walletClient,
-  });
-  return token;
-};
-
 export function getPublicClient() {
   return createPublicClient({
     chain: sepolia,
@@ -95,14 +73,6 @@ export function getPublicClient() {
         process.env.NETLIFY === 'true' ? process.env.VITE_ALCHEMY_API_KEY : import.meta.env.VITE_ALCHEMY_API_KEY
       }`,
     ),
-  });
-}
-
-export function getWalletClient({ provider }: { provider: any & { request(...args: any): Promise<any> } }) {
-  console.log(provider);
-  return createWalletClient({
-    chain: sepolia,
-    transport: custom(provider),
   });
 }
 
