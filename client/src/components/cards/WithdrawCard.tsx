@@ -28,7 +28,9 @@ export default function WithdrawCard({ onBack }: WithdrawCardProps) {
     if (!amount || parseInt(amount) === 0) return displayToast('You need to enter an amount', { type: 'warning' });
 
     if (parseEther(amount) > balances[`DEX_${selectedToken}`])
-      return displayToast(`You don't have ${selectedToken} deposited to withdraw that much`, { type: 'warning' });
+      return displayToast(`You don't have enough ${selectedToken} deposited to withdraw that much`, {
+        type: 'warning',
+      });
 
     try {
       const { request: requestAllowance } = await publicClient.simulateContract({
