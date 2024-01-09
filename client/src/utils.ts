@@ -8,6 +8,7 @@ import {
   createPublicClient,
   createWalletClient,
   custom,
+  formatEther,
   getContract,
   http,
 } from 'viem';
@@ -15,6 +16,7 @@ import { goerli, mainnet, sepolia } from 'viem/chains';
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { DEX_ADDRESS } from './consts';
 dayjs.extend(relativeTime);
 
 export type DexContractRead = GetContractReturnType<typeof DexAbi, PublicClient>;
@@ -52,7 +54,7 @@ export const getDexReadWrite = async (
   walletClient: WalletClient,
 ): Promise<DexContractWrite> => {
   const dex = getContract({
-    address: '0xe3B970200669bB3258886e0a8E5c97504d93ba31',
+    address: DEX_ADDRESS,
     abi: DexAbi,
     walletClient,
     publicClient,
@@ -122,6 +124,26 @@ export async function getEthereumProvider() {
   return provider;
 }
 
+export async function getTokenBalance(tokenAddress: Address, userAddress: Address, publicClient: PublicClient) {
+  const data = await publicClient.readContract({
+    address: tokenAddress,
+    abi: TokenAbi,
+    functionName: 'balanceOf',
+    args: [userAddress],
+  });
+  return data;
+}
+
+export async function getDexBalance(userAddress: Address, ticker: Address, publicClient: PublicClient) {
+  const data = await publicClient.readContract({
+    address: DEX_ADDRESS,
+    abi: DexAbi,
+    functionName: 'traderBalances',
+    args: [userAddress, ticker],
+  });
+  return data;
+}
+
 export function isAndroid(): boolean {
   return typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent);
 }
@@ -147,4 +169,15 @@ export function isMobile(): boolean {
 
 export function getRelativeDateFromBlockTimestamp(timestamp: bigint | undefined) {
   return dayjs(Number(timestamp) * 1000).fromNow();
+}
+
+export function truncateAddreess(address: Address) {
+  return address.slice(0, 4) + '...' + address.slice(-4);
+}
+
+export function formatBalance(balance: bigint, digits: number = 3) {
+  return formatEther(balance)
+    .split('.')
+    .map((s, i) => (i === 1 ? s.slice(0, digits) : s))
+    .join('.');
 }

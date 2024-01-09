@@ -1,5 +1,13 @@
 import { useDexStore } from '../../store';
 import { PrimaryButton } from '../shared/PrimaryButton';
+import { formatBalance } from '../../utils';
+import { useCallback, useState } from 'react';
+import { DEX_ADDRESS, TICKER, TOKEN_ADDRESS } from '../../consts';
+import { TokenAbi } from '../../contracts/TokenAbi';
+import { pad, parseEther } from 'viem';
+import { DexAbi } from '../../contracts/DexAbi';
+import { getBalances } from '../providers/WalletProvider';
+import { displayToast } from '../Notifications';
 
 type WithdrawCardProps = {
   onBack: () => void;
@@ -7,6 +15,48 @@ type WithdrawCardProps = {
 
 export default function WithdrawCard({ onBack }: WithdrawCardProps) {
   const selectedToken = useDexStore((state) => state.selectedToken);
+  const balances = useDexStore((state) => state.balances);
+  const walletClient = useDexStore((state) => state.walletClient);
+  const publicClient = useDexStore((state) => state.publicClient);
+  const account = useDexStore((state) => state.account);
+  const setBalances = useDexStore((state) => state.setBalances);
+
+  const [amount, setAmount] = useState<string>();
+
+  const withdrawToken = useCallback(async () => {
+    if (!walletClient || !account || !amount) return;
+    try {
+      const { request: requestAllowance } = await publicClient.simulateContract({
+        account,
+        address: TOKEN_ADDRESS[selectedToken],
+        abi: TokenAbi,
+        functionName: 'increaseAllowance',
+        args: [DEX_ADDRESS, parseEther(amount, 'wei')],
+      });
+      const hashAllowance = await walletClient.writeContract(requestAllowance);
+      const receiptAllowance = await publicClient.waitForTransactionReceipt({ hash: hashAllowance });
+
+      if (receiptAllowance) displayToast('Approved to transfer tokens', { type: 'success' });
+
+      const { request: requestWithdraw } = await publicClient.simulateContract({
+        account,
+        address: DEX_ADDRESS,
+        abi: DexAbi,
+        functionName: 'withdraw',
+        args: [parseEther(amount, 'wei'), pad(TICKER[selectedToken], { dir: 'right' })],
+      });
+      const hashWithdraw = await walletClient.writeContract(requestWithdraw);
+      const receiptWithdraw = await publicClient.waitForTransactionReceipt({ hash: hashWithdraw });
+
+      if (receiptWithdraw) displayToast('Withdrawl successful', { type: 'success' });
+
+      setBalances(await getBalances(account, publicClient));
+    } catch (err) {
+      console.error(err);
+      displayToast('Something went wrong', { type: 'error' });
+    }
+  }, [publicClient, setBalances, walletClient, account, amount, selectedToken]);
+
   return (
     <div className="flex flex-col justify-between">
       <button className="flex w-fit" onClick={onBack}>
@@ -28,6 +78,8 @@ export default function WithdrawCard({ onBack }: WithdrawCardProps) {
             Amount
             <input
               type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
               inputMode="numeric"
               placeholder="0.0000"
               className="w-full text-4xl font-bold bg-transparent outline-none placeholder:text-primary-200 focus:placeholder:text-primary-50"
@@ -37,12 +89,12 @@ export default function WithdrawCard({ onBack }: WithdrawCardProps) {
         </div>
         <div className="flex justify-between w-full">
           <div className="text-primary-200 min-w-fit">
-            <p>Available</p>
+            <p>Available in Dex</p>
             <p>
-              1.001 <span>{selectedToken}</span>
+              {balances && formatBalance(balances[`DEX_${selectedToken}`])} <span>{selectedToken}</span>
             </p>
           </div>
-          <PrimaryButton>
+          <PrimaryButton asyncAction={withdrawToken}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

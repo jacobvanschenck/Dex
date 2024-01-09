@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { isMobile } from '../../utils';
+import { formatBalance, isMobile, truncateAddreess } from '../../utils';
 import QRCode from 'react-qr-code';
 import { mobileWallets } from '../../consts';
 import { useDexStore } from '../../store';
@@ -7,6 +7,7 @@ import Avatar from '../Avatar';
 import { PrimaryButton } from '../shared/PrimaryButton';
 import { Address, createWalletClient, custom } from 'viem';
 import { sepolia } from 'viem/chains';
+import { displayToast } from '../Notifications';
 
 export default function WalletConnectActionSheet() {
   const [uri, setUri] = useState<string | null>(null);
@@ -16,7 +17,7 @@ export default function WalletConnectActionSheet() {
   const account = useDexStore((state) => state.account);
   const setAccount = useDexStore((state) => state.setAccount);
   const setProvider = useDexStore((state) => state.setProvider);
-  const balance = useDexStore((state) => state.balance);
+  const balances = useDexStore((state) => state.balances);
   const disconnect = useDexStore((state) => state.disconnect);
   const setActionSheetOpen = useDexStore((state) => state.setActionSheetOpen);
 
@@ -43,11 +44,16 @@ export default function WalletConnectActionSheet() {
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2 items-center">
             <Avatar username={account} size={60} />
-            <p className="text-lg font-bold md:block">{account.slice(0, 4) + '...' + account.slice(-4)}</p>
-            <p className="text-sm text-neutral-400">{balance} SepoliaETH</p>
+            <p className="text-lg font-bold md:block">{truncateAddreess(account)}</p>
+            <p className="text-sm text-neutral-400">{balances && formatBalance(balances.ETH)} SepoliaETH</p>
           </div>
           <div className="flex gap-4">
-            <PrimaryButton action={() => navigator.clipboard.writeText(account)}>
+            <PrimaryButton
+              action={() => {
+                navigator.clipboard.writeText(account);
+                displayToast('Copied address', { type: 'success' });
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

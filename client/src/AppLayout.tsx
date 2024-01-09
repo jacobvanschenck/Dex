@@ -12,6 +12,7 @@ import TradeCard from './components/cards/TradeCard';
 import { useDexStore } from './store';
 import ConnectButton from './components/shared/ConnectButton';
 import { TOKEN_SHEET } from './types';
+import { Toaster } from 'react-hot-toast';
 
 export default function AppLayout() {
   const account = useDexStore((state) => state.account);
@@ -81,6 +82,7 @@ export default function AppLayout() {
           <MobileCardContainer />
           <MobileNav />
           <ActionSheet />
+          <Toaster />
         </div>
       </div>
     </div>

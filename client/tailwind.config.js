@@ -35,6 +35,21 @@ export default {
           950: '#3D220C',
         },
       },
+      keyframes: {
+        enter: {
+          '0%': { transform: 'translateY(-200px)' },
+          '100%': { transform: 'translateY(0px)' },
+        },
+        exit: {
+          '0%': { transform: 'translateY(0px)' },
+          '30%': { transform: 'translateY(-200px)' },
+          '100%': { transform: 'translateY(-200px)' },
+        },
+      },
+      animation: {
+        enter: 'enter 400ms ease-in-out',
+        exit: 'exit 1s ease-in-out',
+      },
     },
   },
   plugins: [],

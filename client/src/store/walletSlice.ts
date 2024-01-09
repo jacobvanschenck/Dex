@@ -9,8 +9,8 @@ export type WalletSlice = {
   setProvider: (provider: Provider) => void;
   account: Address | null;
   setAccount: (account: Address | null) => void;
-  balance: string | null;
-  setBalance: (balance: string | null) => void;
+  balances: Record<string, bigint> | null;
+  setBalances: (balances: Record<string, bigint> | null) => void;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   publicClient: PublicClient;
@@ -24,8 +24,8 @@ export const createWalletSlice: StateCreator<WalletSlice> = (set, get) => ({
   setProvider: (provider: Provider) => set({ provider }),
   account: null,
   setAccount: (account: Address | null) => set({ account }),
-  balance: null,
-  setBalance: (balance: string | null) => set({ balance }),
+  balances: null,
+  setBalances: (balances: Record<string, bigint> | null) => set({ balances }),
   connect: async () => {
     const provider = await getEthereumProvider();
     const isConnected = get().isConnected;
@@ -50,7 +50,7 @@ export const createWalletSlice: StateCreator<WalletSlice> = (set, get) => ({
     if (metaConnected) {
       window.localStorage.setItem('dex.metamask_connected', JSON.stringify(false));
     }
-    set({ account: null, isConnected: false, balance: null });
+    set({ account: null, isConnected: false, balances: null });
   },
   publicClient: getPublicClient(),
   walletClient: null,

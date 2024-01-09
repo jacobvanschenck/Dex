@@ -18,3 +18,4 @@
 - [ ] Clean up files and packages
 - [x] Change favicon
 - [ ] Tutorial Modal, help icon top right?
+- [ ] Toasts

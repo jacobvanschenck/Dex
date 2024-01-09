@@ -1,15 +1,16 @@
 import { useDexStore } from '../../store';
 import { ACCOUNT_SHEET } from '../../types';
+import { formatBalance } from '../../utils';
 import Avatar from '../Avatar';
 
 export default function ConnectButton() {
   const displayActionSheet = useDexStore((state) => state.displayActionSheet);
   const account = useDexStore((state) => state.account);
-  const balance = useDexStore((state) => state.balance);
+  const balances = useDexStore((state) => state.balances);
 
   return account ? (
     <button onClick={() => displayActionSheet(ACCOUNT_SHEET)} className="flex gap-2 items-center rounded-[50px]">
-      <p className="hidden font-bold md:block">{balance} SepoliaETH</p>
+      <p className="hidden font-bold md:block">{balances && formatBalance(balances.ETH)} SepoliaETH</p>
       <Avatar username={account} />
       <p className="hidden text-lg font-bold md:block">{account.slice(0, 4) + '...' + account.slice(-4)}</p>
       <svg

@@ -4,6 +4,7 @@ export const ORDER = 'ORDER';
 export const PRICE = 'PRICE';
 export const DEPOSIT = 'DEPOSIT';
 export const WITHDRAW = 'WITHDRAW';
+export const BALANCE = 'BALANCE';
 
 export type CardType = typeof WALLET | typeof TRADE | typeof ORDER | typeof PRICE | typeof DEPOSIT | typeof WITHDRAW;
 export const CARDS = [WALLET, TRADE, ORDER, PRICE, DEPOSIT, WITHDRAW] as const;
