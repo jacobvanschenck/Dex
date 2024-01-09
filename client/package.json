@@ -7,7 +7,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "lint": "eslint ./src"
+    "check": "eslint ./src && tsc"
   },
   "dependencies": {
     "@metamask/detect-provider": "2.0.0",

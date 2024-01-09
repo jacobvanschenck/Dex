@@ -24,8 +24,8 @@ export default function TradeCard() {
 
   const createLimitOrder = useCallback(async () => {
     if (!selectedToken || !account || !walletClient || !balances) return;
-    if (!amount || parseInt(amount) === 0) return displayToast('Please enter an amount', { type: 'warning' });
-    if (!price || parseInt(price) === 0) return displayToast('Please enter a price', { type: 'warning' });
+    if (!amount || parseFloat(amount) === 0) return displayToast('Please enter an amount', { type: 'warning' });
+    if (!price || parseFloat(price) === 0) return displayToast('Please enter a price', { type: 'warning' });
 
     if (side === SELL && parseEther(amount) > balances[`DEX_${selectedToken}`])
       return displayToast(`You don't have enough ${selectedToken} to create this order`, { type: 'warning' });
@@ -56,7 +56,7 @@ export default function TradeCard() {
 
   const createMarketOrder = useCallback(async () => {
     if (!selectedToken || !account || !walletClient || !balances) return;
-    if (!amount || parseInt(amount) === 0) return displayToast('Please enter an amount', { type: 'warning' });
+    if (!amount || parseFloat(amount) === 0) return displayToast('Please enter an amount', { type: 'warning' });
 
     if (side === SELL && parseEther(amount) > balances[`DEX_${selectedToken}`])
       return displayToast(`You don't have enough ${selectedToken} to create this order`, { type: 'warning' });

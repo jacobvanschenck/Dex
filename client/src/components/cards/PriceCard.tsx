@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDexStore } from '../../store';
 import { Trade, getDexRead, getDexTradeEvents, getRelativeDateFromBlockTimestamp } from '../../utils';
-import { PublicClient, pad } from 'viem';
+import { PublicClient, formatEther, pad } from 'viem';
 import { TICKER } from '../../consts';
 import { SyncLoader } from 'react-spinners';
 import { displayToast } from '../Notifications';
@@ -23,7 +23,7 @@ export default function PriceCard() {
               .filter((log) => log.args.ticker === pad(TICKER[selectedToken], { dir: 'right' }))
               .map((l) => {
                 return {
-                  amount: l.args.amount?.toString() ?? 'missing',
+                  amount: l.args.amount ? formatEther(l.args.amount).slice(0, 6) : 'missing',
                   price: l.args.price?.toString() ?? 'missing',
                   date: getRelativeDateFromBlockTimestamp(l.args.date),
                 };

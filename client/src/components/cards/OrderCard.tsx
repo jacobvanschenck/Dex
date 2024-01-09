@@ -3,7 +3,7 @@ import { Order, getDexRead, getRelativeDateFromBlockTimestamp } from '../../util
 import { useDexStore } from '../../store';
 import Pill from '../Pill';
 import { MY_ORDERS, ALL_ORDERS, SIDE, TICKER } from '../../consts';
-import { PublicClient, pad } from 'viem';
+import { PublicClient, formatEther, pad } from 'viem';
 import { SyncLoader } from 'react-spinners';
 
 const BUY = 'BUY';
@@ -27,7 +27,7 @@ export default function OrderCard() {
       setOrders({
         BUY: buyOrders.map((o) => {
           return {
-            amount: o.amount.toString(),
+            amount: formatEther(o.amount),
             filled: o.filled.toString(),
             date: getRelativeDateFromBlockTimestamp(o.date),
             price: o.price.toString(),
@@ -36,7 +36,7 @@ export default function OrderCard() {
         }),
         SELL: sellOrders.map((o) => {
           return {
-            amount: o.amount.toString(),
+            amount: formatEther(o.amount),
             filled: o.filled.toString(),
             date: getRelativeDateFromBlockTimestamp(o.date),
             price: o.price.toString(),

@@ -25,7 +25,7 @@ export default function DepositCard({ onBack }: DepositCardProps) {
 
   const depositToken = useCallback(async () => {
     if (!walletClient || !account || !balances) return;
-    if (!amount || parseInt(amount) === 0) return displayToast('You need to enter an amount', { type: 'warning' });
+    if (!amount || parseFloat(amount) === 0) return displayToast('You need to enter an amount', { type: 'warning' });
 
     if (parseEther(amount) > balances[selectedToken])
       return displayToast(`You don't have enough ${selectedToken} in your wallet`, { type: 'warning' });
