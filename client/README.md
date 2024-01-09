@@ -9,7 +9,7 @@
 - [x] Public Client ENV vars on netlify
 - [x] Fix Chart x axis
 - [ ] Trade Card functionality
-- [ ] Deposit / Withdraw functionality
+- [x] Deposit / Withdraw functionality
 - [x] Orders List
 - [x] Prices List
 - [ ] Transition Everything
@@ -18,4 +18,4 @@
 - [ ] Clean up files and packages
 - [x] Change favicon
 - [ ] Tutorial Modal, help icon top right?
-- [ ] Toasts
+- [x] Toasts
