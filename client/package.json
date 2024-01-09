@@ -12,6 +12,7 @@
   "dependencies": {
     "@metamask/detect-provider": "2.0.0",
     "@react-spring/web": "^9.7.3",
+    "@types/node": "^20.10.7",
     "@walletconnect/ethereum-provider": "^2.10.6",
     "@walletconnect/sign-client": "^2.10.6",
     "@walletconnect/universal-provider": "^2.10.6",

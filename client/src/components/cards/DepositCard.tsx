@@ -24,7 +24,12 @@ export default function DepositCard({ onBack }: DepositCardProps) {
   const [amount, setAmount] = useState<string>();
 
   const depositToken = useCallback(async () => {
-    if (!walletClient || !account || !amount) return;
+    if (!walletClient || !account || !balances) return;
+    if (!amount || parseInt(amount) === 0) return displayToast('You need to enter an amount', { type: 'warning' });
+
+    if (parseEther(amount) > balances[selectedToken])
+      return displayToast(`You don't have enough ${selectedToken} in your wallet`, { type: 'warning' });
+
     try {
       const { request: requestAllowance } = await publicClient.simulateContract({
         account,
@@ -55,7 +60,7 @@ export default function DepositCard({ onBack }: DepositCardProps) {
       console.error(err);
       displayToast('Something went wrong', { type: 'error' });
     }
-  }, [publicClient, setBalances, walletClient, account, amount, selectedToken]);
+  }, [publicClient, setBalances, walletClient, account, amount, selectedToken, balances]);
 
   return (
     <div className="flex flex-col justify-between">

@@ -4,6 +4,7 @@ import { Trade, getDexRead, getDexTradeEvents, getRelativeDateFromBlockTimestamp
 import { PublicClient, pad } from 'viem';
 import { TICKER } from '../../consts';
 import { SyncLoader } from 'react-spinners';
+import { displayToast } from '../Notifications';
 
 export default function PriceCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);
@@ -31,6 +32,7 @@ export default function PriceCard() {
         }
       } catch (err) {
         console.error(err);
+        displayToast('Something went wrong while getting trade events', { type: 'error' });
       }
     },
     [selectedToken],

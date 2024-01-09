@@ -5,6 +5,7 @@ import { PublicClient, pad } from 'viem';
 import { TICKER } from '../consts';
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts';
 import { DAI } from '../types';
+import { displayToast } from './Notifications';
 
 export default function TradeChart() {
   const selectedToken = useDexStore((state) => state.selectedToken);
@@ -31,6 +32,7 @@ export default function TradeChart() {
         }
       } catch (err) {
         console.error(err);
+        displayToast('Something went wrong while getting trade events', { type: 'error' });
       }
     },
     [selectedToken, publicClient],

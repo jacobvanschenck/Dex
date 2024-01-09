@@ -8,7 +8,7 @@
   - [x] Layout
 - [x] Public Client ENV vars on netlify
 - [x] Fix Chart x axis
-- [ ] Trade Card functionality
+- [x] Trade Card functionality
 - [x] Deposit / Withdraw functionality
 - [x] Orders List
 - [x] Prices List
@@ -18,5 +18,5 @@
 - [x] Clean up files and packages
 - [x] Change favicon
 - [ ] Tutorial Modal, help icon top right?
-- [ ] Simple toast form validation
+- [x] Simple toast form validation
 - [x] Toasts

@@ -6,6 +6,7 @@ import { sepolia } from 'viem/chains';
 import useEthereumProviderEvents from '../../hooks/useEthereumProviderEvents';
 import { BAT_ADDRESS, DAI_ADDRESS, REP_ADDRESS, TICKER, ZRX_ADDRESS } from '../../consts';
 import { BAT, DAI, REP, ZRX } from '../../types';
+import { displayToast } from '../Notifications';
 
 export async function getBalances(address: Address, publicClient: PublicClient) {
   if (!address) return null;
@@ -32,10 +33,10 @@ export async function getBalances(address: Address, publicClient: PublicClient) 
       DEX_REP: dexRepBalance,
       DEX_ZRX: dexZrxBalance,
     };
-    console.log(balances);
     return balances;
   } catch (err) {
     console.error(err);
+    displayToast('Something went wrong while getting balances', { type: 'error' });
     return null;
   }
 }
@@ -112,6 +113,7 @@ export default function WalletProvider() {
       setProvider(provider);
     } catch (err) {
       console.error(err);
+      displayToast('Something went wrong connecting your wallet, refresh and try again', { type: 'error' });
     }
   }, [setProvider, setBalances, publicClient, metaConnected, wcConnected, setAccount, setWalletClient]);
 

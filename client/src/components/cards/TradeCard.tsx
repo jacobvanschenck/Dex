@@ -2,55 +2,89 @@ import { useCallback, useState } from 'react';
 import Pill from '../Pill';
 import { PrimaryButton } from '../shared/PrimaryButton';
 import { useDexStore } from '../../store';
-import { BUY, LIMIT, MARKET, SELL, TICKER } from '../../consts';
+import { BUY, DEX_ADDRESS, LIMIT, MARKET, SELL, TICKER } from '../../consts';
 import { DexAbi } from '../../contracts/DexAbi';
-import { pad } from 'viem/utils';
+import { pad, parseEther } from 'viem/utils';
 import { sepolia } from 'viem/chains';
+import { displayToast } from '../Notifications';
+import { getBalances } from '../providers/WalletProvider';
 
 export default function TradeCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);
   const account = useDexStore((state) => state.account);
   const publicClient = useDexStore((state) => state.publicClient);
+  const walletClient = useDexStore((state) => state.walletClient);
+  const setBalances = useDexStore((state) => state.setBalances);
+  const balances = useDexStore((state) => state.balances);
+
   const [side, setSide] = useState(BUY);
   const [type, setType] = useState(LIMIT);
   const [amount, setAmount] = useState<string>('');
   const [price, setPrice] = useState<string>('');
 
   const createLimitOrder = useCallback(async () => {
-    if (!selectedToken || !account || !amount || !price) return;
+    if (!selectedToken || !account || !walletClient || !balances) return;
+    if (!amount || parseInt(amount) === 0) return displayToast('Please enter an amount', { type: 'warning' });
+    if (!price || parseInt(price) === 0) return displayToast('Please enter a price', { type: 'warning' });
+
+    if (side === SELL && parseEther(amount) > balances[`DEX_${selectedToken}`])
+      return displayToast(`You don't have enough ${selectedToken} to create this order`, { type: 'warning' });
+
+    if (side === BUY && parseEther(amount) * BigInt(price) > balances['DEX_DAI'])
+      return displayToast(`You don't have enough DAI to create this order`, { type: 'warning' });
+
     try {
       const { request } = await publicClient.simulateContract({
-        address: '0xe3B970200669bB3258886e0a8E5c97504d93ba31',
+        address: DEX_ADDRESS,
         abi: DexAbi,
         functionName: 'createLimitOrder',
         account,
-        args: [pad(TICKER[selectedToken], { dir: 'right' }), BigInt(amount), BigInt(price), side],
+        args: [pad(TICKER[selectedToken], { dir: 'right' }), parseEther(amount), BigInt(price), side],
         chain: sepolia,
       });
 
-      console.log(request);
+      const hash = await walletClient.writeContract(request);
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      if (receipt) displayToast('Limit order created', { type: 'success' });
+
+      setBalances(await getBalances(account, publicClient));
     } catch (err) {
       console.error(err);
+      displayToast('Something went wrong', { type: 'error' });
     }
-  }, [account, publicClient, selectedToken, side, amount, price]);
+  }, [account, publicClient, selectedToken, side, amount, price, setBalances, walletClient, balances]);
 
   const createMarketOrder = useCallback(async () => {
-    if (!selectedToken || !account || !amount) return;
+    if (!selectedToken || !account || !walletClient || !balances) return;
+    if (!amount || parseInt(amount) === 0) return displayToast('Please enter an amount', { type: 'warning' });
+
+    if (side === SELL && parseEther(amount) > balances[`DEX_${selectedToken}`])
+      return displayToast(`You don't have enough ${selectedToken} to create this order`, { type: 'warning' });
+
+    // TODO need better logic here, have to check the dex??
+    // if (side === BUY && parseEther(amount) > balances['DEX_DAI'])
+    //   return displayToast(`You don't have enough DAI to create this order`, { type: 'warning' });
+
     try {
       const { request } = await publicClient.simulateContract({
-        address: '0xe3B970200669bB3258886e0a8E5c97504d93ba31',
+        address: DEX_ADDRESS,
         abi: DexAbi,
         functionName: 'createMarketOrder',
         account,
-        args: [pad(TICKER[selectedToken], { dir: 'right' }), BigInt(amount), side],
+        args: [pad(TICKER[selectedToken], { dir: 'right' }), parseEther(amount), side],
         chain: sepolia,
       });
 
-      console.log(request);
+      const hash = await walletClient.writeContract(request);
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+      if (receipt) displayToast('Limit order created', { type: 'success' });
+
+      setBalances(await getBalances(account, publicClient));
     } catch (err) {
       console.error(err);
+      displayToast('Something went wrong', { type: 'error' });
     }
-  }, [account, publicClient, selectedToken, side, amount]);
+  }, [account, balances, publicClient, walletClient, setBalances, selectedToken, side, amount]);
 
   return (
     <div className="flex flex-col gap-3 justify-between w-full">
