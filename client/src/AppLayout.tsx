@@ -27,7 +27,10 @@ export default function AppLayout() {
           Tsunami<span className="font-extrabold">Trades</span>
         </div>
         <div className="flex gap-4 items-center">
-          <button className="flex gap-1 md:hidden" onClick={() => displayActionSheet(TOKEN_SHEET)}>
+          <button
+            className="flex gap-1 transition-transform duration-200 md:hidden active:enabled:scale-95"
+            onClick={() => displayActionSheet(TOKEN_SHEET)}
+          >
             {selectedToken}
             <svg
               xmlns="http://www.w3.org/2000/svg"
