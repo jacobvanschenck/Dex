@@ -2,7 +2,11 @@ import { useDexStore } from '../../store';
 import { TOKENS } from '../../types';
 import { PrimaryButton } from '../shared/PrimaryButton';
 
-export default function SelectTokenActionSheet() {
+type SelectTokenActionSheetProps = {
+  close: () => void;
+};
+
+export default function SelectTokenActionSheet({ close }: SelectTokenActionSheetProps) {
   const selectedToken = useDexStore((state) => state.selectedToken);
   const setSelectedToken = useDexStore((state) => state.setSelectedToken);
 
@@ -11,7 +15,14 @@ export default function SelectTokenActionSheet() {
       <p className="font-bold">Select token to trade</p>
       <div className="flex flex-wrap gap-4">
         {TOKENS.map((t, i) => (
-          <PrimaryButton action={() => setSelectedToken(t)} key={i} active={t === selectedToken}>
+          <PrimaryButton
+            action={() => {
+              setSelectedToken(t);
+              close();
+            }}
+            key={i}
+            active={t === selectedToken}
+          >
             {t}
           </PrimaryButton>
         ))}

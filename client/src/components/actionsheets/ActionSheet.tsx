@@ -20,7 +20,7 @@ export default function ActionSheet() {
       case ACCOUNT_SHEET:
         return <WalletConnectActionSheet />;
       case TOKEN_SHEET:
-        return <SelectTokenActionSheet />;
+        return <SelectTokenActionSheet close={() => setActionSheetOpen(false)} />;
     }
   }
 

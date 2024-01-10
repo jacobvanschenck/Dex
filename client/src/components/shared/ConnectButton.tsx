@@ -9,7 +9,10 @@ export default function ConnectButton() {
   const balances = useDexStore((state) => state.balances);
 
   return account ? (
-    <button onClick={() => displayActionSheet(ACCOUNT_SHEET)} className="flex gap-2 items-center rounded-[50px]">
+    <button
+      onClick={() => displayActionSheet(ACCOUNT_SHEET)}
+      className="flex gap-2 items-center transition-transform duration-200 rounded-[50px] active:enabled:scale-95"
+    >
       <p className="hidden font-bold md:block">{balances && formatBalance(balances.ETH)} SepoliaETH</p>
       <Avatar username={account} />
       <p className="hidden text-lg font-bold md:block">{account.slice(0, 4) + '...' + account.slice(-4)}</p>
@@ -26,7 +29,7 @@ export default function ConnectButton() {
     </button>
   ) : (
     <button
-      className="flex gap-1 py-4 px-5 text-xs font-bold bg-violet-500 rounded-[50px] h-fit md:text-md"
+      className="flex gap-1 py-4 px-5 text-xs font-bold bg-violet-500 transition-transform duration-200 rounded-[50px] h-fit md:text-md active:enabled:scale-90"
       onClick={() => displayActionSheet(ACCOUNT_SHEET)}
     >
       Connect<span className="hidden md:block"> Wallet</span>

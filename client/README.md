@@ -12,7 +12,7 @@
 - [x] Deposit / Withdraw functionality
 - [x] Orders List
 - [x] Prices List
-- [ ] Transition Everything
+- [x] Transition Everything
 - [x] Better fallbacks everywhere (Chart DAI, Chart Loading, Lists Loading)
 - [ ] Update Github readme
 - [x] Clean up files and packages

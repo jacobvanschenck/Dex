@@ -52,13 +52,13 @@ export default function PriceCard() {
 
   return (
     <div className="flex flex-col items-start px-4 w-full">
-      <p className="pb-2 text-2xl font-bold md:text-3xl text-primary-50">Prices</p>
+      <p className="text-2xl font-bold md:pb-2 md:text-3xl text-primary-50">Prices</p>
       <div className="flex py-3 w-full border-b-[1px] border-b-primary-300">
         <p className="w-1/3 leading-5 text-primary-50">Amount</p>
         <p className="w-1/3 leading-5 text-primary-50">Price</p>
         <p className="w-1/3 leading-5 text-primary-50">Date</p>
       </div>
-      {selectedToken !== 'DAI' && (
+      {selectedToken !== 'DAI' ? (
         <ul role="list" className="overflow-y-auto w-full divide-y divide-primary-300">
           {trades?.map((trade, i) => (
             <li key={i} className="flex py-3">
@@ -74,6 +74,10 @@ export default function PriceCard() {
             </li>
           ))}
         </ul>
+      ) : (
+        <div className="flex justify-center items-center w-full h-full md:items-end md:pb-20">
+          Choose a different token
+        </div>
       )}
     </div>
   );

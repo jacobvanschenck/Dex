@@ -81,7 +81,7 @@ export default function WithdrawCard({ onBack }: WithdrawCardProps) {
       </button>
       <div className="flex flex-col gap-4 justify-end items-start">
         <div className="flex gap-2 items-end">
-          <label className="transition-colors duration-100 text-primary-200 focus-within:text-primary-50">
+          <label className="leading-none transition-colors duration-100 text-primary-200 focus-within:text-primary-50">
             Amount
             <input
               type="number"

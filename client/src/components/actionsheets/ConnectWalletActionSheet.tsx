@@ -141,8 +141,8 @@ export default function WalletConnectActionSheet() {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col gap-2 items-center stroke-neutral-400">
-              <div className="flex gap-2">
+            <div className="flex flex-col gap-3 items-center stroke-neutral-400">
+              <div className="flex gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -171,7 +171,7 @@ export default function WalletConnectActionSheet() {
                           setAccount(provider.accounts[0] as Address);
                           setProvider(provider);
                         }}
-                        className="flex flex-col gap-1 items-center"
+                        className="flex flex-col gap-1 items-center transition-transform duration-200 active:enabled:scale-90"
                         key={i}
                       >
                         <div className="overflow-hidden rounded-2xl w-fit">

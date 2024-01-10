@@ -89,19 +89,19 @@ export default function TradeCard() {
   return (
     <div className="flex flex-col gap-3 justify-between w-full">
       <div className="flex gap-2">
-        <div className="flex gap-1 p-2 grow bg-primary-800 rounded-[50px]">
+        <div className="flex gap-1 p-1 grow bg-primary-800 rounded-[50px]">
           <Pill caption="Limit" isSelected={type === LIMIT} onClick={() => setType(LIMIT)} />
           <Pill caption="Market" isSelected={type === MARKET} onClick={() => setType(MARKET)} />
         </div>
-        <div className="flex flex-1 gap-1 p-2 bg-primary-800 rounded-[50px]">
+        <div className="flex flex-1 gap-1 p-1 bg-primary-800 rounded-[50px]">
           <Pill caption="Buy" isSelected={side === BUY} onClick={() => setSide(BUY)} />
           <Pill caption="Sell" isSelected={side === SELL} onClick={() => setSide(SELL)} />
         </div>
       </div>
-      {selectedToken !== 'DAI' && (
+      {selectedToken !== 'DAI' ? (
         <div className="flex flex-col gap-3">
-          <div className="flex gap-2 items-end">
-            <label className="transition-colors duration-100 text-primary-200 focus-within:text-primary-50">
+          <div className="flex gap-3 items-end">
+            <label className="leading-none transition-colors duration-100 md:leading-normal text-primary-200 focus-within:text-primary-50">
               Amount
               <input
                 type="number"
@@ -112,12 +112,12 @@ export default function TradeCard() {
                 className="w-full text-4xl font-bold bg-transparent outline-none placeholder:text-primary-200 focus:placeholder:text-primary-50"
               />
             </label>
-            <p className="text-2xl font-normal text-primary-200">{selectedToken}</p>
+            <p className="text-xl font-normal md:text-2xl text-primary-200">{selectedToken}</p>
           </div>
-          <div className="flex gap-2 items-end h-16">
+          <div className="flex gap-2 items-end h-14">
             {type === LIMIT && (
               <>
-                <label className="transition-colors duration-100 text-primary-200 focus-within:text-primary-50">
+                <label className="leading-none transition-colors duration-100 md:leading-normal text-primary-200 focus-within:text-primary-50">
                   Price
                   <input
                     type="number"
@@ -128,7 +128,7 @@ export default function TradeCard() {
                     className="w-full text-4xl font-bold bg-transparent outline-none placeholder:text-primary-200 focus:placeholder:text-primary-50"
                   />
                 </label>
-                <p className="text-2xl font-normal text-primary-200">{selectedToken}/DAI</p>
+                <p className="text-xl font-normal md:text-2xl text-primary-200">{selectedToken}/DAI</p>
               </>
             )}
           </div>
@@ -137,6 +137,10 @@ export default function TradeCard() {
               Create Order
             </PrimaryButton>
           </div>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center w-full h-full md:items-end md:pb-20">
+          Choose a different token
         </div>
       )}
     </div>

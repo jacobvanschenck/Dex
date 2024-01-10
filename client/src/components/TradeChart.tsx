@@ -45,15 +45,16 @@ export default function TradeChart() {
 
   if (selectedToken === DAI)
     return (
-      <div className="flex justify-center items-center p-8 w-full h-full text-center min-h-[10rem]">
-        DAI cannot be traded, choose a different token to view orders and prices
+      <div className="flex flex-col gap-2 justify-center items-center w-full h-full text-center min-h-[7.5rem] md:min-h-[10rem]">
+        <h2 className="text-xl font-bold md:text-2xl">DAI cannot be traded</h2>
+        <p className="px-14 text-sm">Choose a different token to view orders, prices and charts</p>
       </div>
     );
 
   if (!data) return null;
 
   return (
-    <div className="w-full h-full min-h-[10rem]">
+    <div className="w-full h-[7.5rem] md:grow md:h-[10rem]">
       <ResponsiveContainer>
         <AreaChart data={data}>
           <defs>
@@ -63,7 +64,14 @@ export default function TradeChart() {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="5 5" style={{ stroke: '#FDF9C9', strokeOpacity: 0.3 }} vertical={false} />
-          <XAxis dataKey="date" axisLine={false} mirror tickLine={false} tickMargin={20} />
+          <XAxis
+            dataKey="date"
+            axisLine={false}
+            mirror
+            tickLine={false}
+            tickMargin={20}
+            style={{ fontSize: '0.75rem' }}
+          />
           <YAxis dataKey="price" mirror axisLine={false} hide tickCount={4} />
           <Area type="monotone" dataKey="price" stroke="#E2B53E" strokeWidth={2} fill="url(#myGradient)" />
           <Tooltip

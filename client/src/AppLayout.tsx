@@ -20,9 +20,9 @@ export default function AppLayout() {
   const displayActionSheet = useDexStore((state) => state.displayActionSheet);
 
   return (
-    <div className="flex flex-col gap-4 items-center py-7 px-3 font-sans md:p-8 h-[100dvh] text-neutral-100 bg-neutral-900">
+    <div className="flex flex-col gap-3 items-center px-3 pt-7 pb-3 font-sans md:p-8 h-[100dvh] text-neutral-100 bg-neutral-900">
       <WalletProvider />
-      <nav className="flex sticky justify-between items-center px-3 w-full">
+      <nav className="flex justify-between items-center px-3 w-full">
         <div className="flex flex-col text-2xl font-light uppercase sm:flex-row md:text-4xl">
           Tsunami<span className="font-extrabold">Trades</span>
         </div>
@@ -43,22 +43,22 @@ export default function AppLayout() {
           <ConnectButton />
         </div>
       </nav>
-      <div className="flex overflow-y-auto overflow-x-hidden flex-col gap-4 w-full h-full md:flex-row md:gap-8">
+      <div className="flex flex-col gap-4 w-full md:flex-row md:gap-8 grow">
         <div className="flex flex-col gap-4 w-full md:gap-8">
           <TradeChart />
           <div className="hidden md:flex md:gap-8">
-            <GradientCardWrapper className="h-[360px] xl:w-[400px]">
+            <GradientCardWrapper className="h-[360px] md:grow">
               <OrderCard />
             </GradientCardWrapper>
-            <GradientCardWrapper className="h-[360px] xl:w-[400px]">
+            <GradientCardWrapper className="h-[360px] md:grow">
               <PriceCard />
             </GradientCardWrapper>
           </div>
         </div>
-        <div className="flex flex-col flex-none gap-4 items-center md:gap-8 grow">
+        <div className="flex flex-col gap-3 items-center md:gap-8 grow">
           <TokenPillsContainer />
           <div className="hidden md:flex md:flex-col md:gap-8 md:w-[24rem] md:grow">
-            <GradientCardWrapper>
+            <GradientCardWrapper className="grow">
               {account ? (
                 <WalletCard />
               ) : (
