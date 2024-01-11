@@ -1,6 +1,6 @@
 # Welcome to TsunamiTrades
 
-![TsunamiTradesScreenShot](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/TsunamiTrades.png)
+![TsunamiTradesScreenShot](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/TsunamiTrades.png)
 
 A **decentralised exchange** to create Market Orders and Limit Orders for ERC20 coins.
 
