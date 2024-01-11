@@ -2,10 +2,11 @@ import { getDexRead, getDexTradeEvents, getRelativeDateFromBlockTimestamp } from
 import { useDexStore } from '../store';
 import { useCallback, useEffect, useState } from 'react';
 import { PublicClient, pad } from 'viem';
-import { TICKER } from '../consts';
+import { DEX_ADDRESS, TICKER } from '../consts';
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts';
 import { DAI } from '../types';
 import { displayToast } from './Notifications';
+import { DexAbi } from '../contracts/DexAbi';
 
 export default function TradeChart() {
   const selectedToken = useDexStore((state) => state.selectedToken);
@@ -38,10 +39,23 @@ export default function TradeChart() {
     [selectedToken, publicClient],
   );
 
+  // Fetch Trades
   useEffect(() => {
     if (!publicClient) return;
     getDexTrades(publicClient);
   }, [getDexTrades, publicClient]);
+
+  // Watch for new Trades
+  useEffect(() => {
+    const unwatch = publicClient.watchContractEvent({
+      address: DEX_ADDRESS,
+      abi: DexAbi,
+      eventName: 'NewTrade',
+      onLogs: () => getDexTrades(publicClient),
+    });
+
+    return () => unwatch();
+  });
 
   if (selectedToken === DAI)
     return (
@@ -77,8 +91,8 @@ export default function TradeChart() {
           <Tooltip
             animationDuration={500}
             animationEasing="linear"
-            contentStyle={{ borderRadius: '1rem', background: '#FEFCEA' }}
-            labelStyle={{ color: '#3D220C' }}
+            contentStyle={{ borderRadius: '1rem', background: '#212936' }}
+            labelStyle={{ color: '#F9FAFB' }}
           />
         </AreaChart>
       </ResponsiveContainer>

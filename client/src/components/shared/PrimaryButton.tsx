@@ -22,7 +22,7 @@ export function PrimaryButton({
   return (
     <button
       type={type}
-      className={`flex gap-2 justify-center items-center py-4 px-5 font-bold w-fit bg-neutral-800 rounded-[50px] text-primary-50 disabled:bg-slate-200 transition-all duration-200 active:enabled:scale-90 ${
+      className={`flex gap-2 justify-center items-center py-4 px-5 font-bold h-14 w-fit bg-neutral-800 rounded-[50px] text-primary-50 disabled:bg-slate-200 transition-all duration-200 active:enabled:scale-90 ${
         active && 'outline outline-2 outline-offset-4 outline-neutral-100'
       }`}
       disabled={disabled}

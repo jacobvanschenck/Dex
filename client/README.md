@@ -17,6 +17,5 @@
 - [ ] Update Github readme
 - [x] Clean up files and packages
 - [x] Change favicon
-- [ ] Tutorial Modal, help icon top right?
 - [x] Simple toast form validation
 - [x] Toasts

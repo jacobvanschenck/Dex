@@ -28,7 +28,7 @@ export default function OrderCard() {
         BUY: buyOrders.map((o) => {
           return {
             amount: formatEther(o.amount),
-            filled: o.filled.toString(),
+            filled: formatEther(o.filled),
             date: getRelativeDateFromBlockTimestamp(o.date),
             price: o.price.toString(),
             trader: o.trader,
