@@ -1,3 +1,4 @@
+// import Provider from '@walletconnect/ethereum-provider';
 import Provider from '@walletconnect/ethereum-provider';
 import { useEffect } from 'react';
 
@@ -22,8 +23,14 @@ export default function useEthereumProviderEvents<TProvider extends Provider | n
     provider.on('disconnect', () => onDisconnect(provider));
 
     return () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       provider.removeListener('connect', onConnect);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       provider.removeListener('accountsChanged', onAccountsChanged);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       provider.removeListener('disconnect', onDisconnect);
     };
   }, [provider, onConnect, onAccountsChanged, onDisconnect]);
