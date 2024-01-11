@@ -2,7 +2,7 @@ import { useDexStore } from '../../store';
 import { PrimaryButton } from '../shared/PrimaryButton';
 import { formatBalance } from '../../utils';
 import { useCallback, useState } from 'react';
-import { DEX_ADDRESS, TICKER, TOKEN_ADDRESS } from '../../consts';
+import { DEX_ADDRESS, TICKER, TOKEN_ADDRESS, mobileWallets } from '../../consts';
 import { TokenAbi } from '../../contracts/TokenAbi';
 import { pad, parseEther } from 'viem';
 import { DexAbi } from '../../contracts/DexAbi';
@@ -40,6 +40,13 @@ export default function WithdrawCard({ onBack }: WithdrawCardProps) {
         functionName: 'increaseAllowance',
         args: [DEX_ADDRESS, parseEther(amount, 'wei')],
       });
+
+      // if using WalletConnect, open app
+      if (JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null')) {
+        console.log(mobileWallets[0].url);
+        window.location.assign(mobileWallets[0].url);
+      }
+
       const hashAllowance = await walletClient.writeContract(requestAllowance);
       const receiptAllowance = await publicClient.waitForTransactionReceipt({ hash: hashAllowance });
 
@@ -52,6 +59,13 @@ export default function WithdrawCard({ onBack }: WithdrawCardProps) {
         functionName: 'withdraw',
         args: [parseEther(amount, 'wei'), pad(TICKER[selectedToken], { dir: 'right' })],
       });
+
+      // if using WalletConnect, open app
+      if (JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null')) {
+        console.log(mobileWallets[0].url);
+        window.location.assign(mobileWallets[0].url);
+      }
+
       const hashWithdraw = await walletClient.writeContract(requestWithdraw);
       const receiptWithdraw = await publicClient.waitForTransactionReceipt({ hash: hashWithdraw });
 

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import Pill from '../Pill';
 import { PrimaryButton } from '../shared/PrimaryButton';
 import { useDexStore } from '../../store';
-import { BUY, DEX_ADDRESS, LIMIT, MARKET, SELL, TICKER } from '../../consts';
+import { BUY, DEX_ADDRESS, LIMIT, MARKET, SELL, TICKER, mobileWallets } from '../../consts';
 import { DexAbi } from '../../contracts/DexAbi';
 import { pad, parseEther } from 'viem/utils';
 import { sepolia } from 'viem/chains';
@@ -43,6 +43,12 @@ export default function TradeCard() {
         chain: sepolia,
       });
 
+      // if using WalletConnect, open app
+      if (JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null')) {
+        console.log(mobileWallets[0].url);
+        window.location.assign(mobileWallets[0].url);
+      }
+
       const hash = await walletClient.writeContract(request);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
       if (receipt) displayToast('Limit order created', { type: 'success' });
@@ -74,6 +80,12 @@ export default function TradeCard() {
         args: [pad(TICKER[selectedToken], { dir: 'right' }), parseEther(amount), side],
         chain: sepolia,
       });
+
+      // if using WalletConnect, open app
+      if (JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null')) {
+        console.log(mobileWallets[0].url);
+        window.location.assign(mobileWallets[0].url);
+      }
 
       const hash = await walletClient.writeContract(request);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });

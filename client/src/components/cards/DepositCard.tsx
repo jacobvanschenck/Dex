@@ -8,6 +8,7 @@ import { pad, parseEther } from 'viem';
 import { TokenAbi } from '../../contracts/TokenAbi';
 import { getBalances } from '../providers/WalletProvider';
 import { displayToast } from '../Notifications';
+import { mobileWallets } from '../../consts';
 
 type DepositCardProps = {
   onBack: () => void;
@@ -38,10 +39,24 @@ export default function DepositCard({ onBack }: DepositCardProps) {
         functionName: 'increaseAllowance',
         args: [DEX_ADDRESS, parseEther(amount, 'wei')],
       });
+
+      // if using WalletConnect, open app
+      if (JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null')) {
+        console.log(mobileWallets[0].url);
+        window.location.assign(mobileWallets[0].url);
+      }
+
       const hashAllowance = await walletClient.writeContract(requestAllowance);
+
       const receiptAllowance = await publicClient.waitForTransactionReceipt({ hash: hashAllowance });
 
       if (receiptAllowance) displayToast('Approved to transfer tokens', { type: 'success' });
+
+      // if using WalletConnect, open app
+      if (JSON.parse(window.localStorage.getItem('dex.wc_connected') || 'null')) {
+        console.log(mobileWallets[0].url);
+        window.location.assign(mobileWallets[0].url);
+      }
 
       const { request: requestDeposit } = await publicClient.simulateContract({
         account,

@@ -99,6 +99,11 @@ export default function WalletProvider() {
         const [account] = await provider.enable();
         setAccount(account as Address);
         setBalances(await getBalances(account as Address, publicClient));
+        const client = createWalletClient({
+          chain: sepolia,
+          transport: custom(provider),
+        });
+        setWalletClient(client);
       }
       if (metaConnected) {
         const client = createWalletClient({
