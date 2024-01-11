@@ -1,57 +1,94 @@
-# Welcome to My Dex
+# Welcome to TsunamiTrades
 
-![MyDexScreenShot](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/MyDex.png)
+![TsunamiTradesScreenShot](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/TsunamiTrades.png)
 
-A **trading platform** to create Market Orders and Limit Orders for ERC20 coins.
+A **decentralised exchange** to create Market Orders and Limit Orders for ERC20 coins.
 
-Here is the app running on the [Kovan network](https://dex-vs.netlify.app/)
+[Here is the app](https://dex-vs.netlify.app/) running on the **Sepolia Test Network**.
 
 ---
 
 ## Tech Stack ⚙️
 
-Solidity | React | [Truffle](https://trufflesuite.com/) | [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) | [Bootstrap](https://getbootstrap.com/) | [ReCharts](https://recharts.org/en-US)
+[Solidity](https://soliditylang.org/) | [React](https://react.dev/) | [Hardhat](https://hardhat.org) | [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) | [Viem](https://viem.sh/) | [ReCharts](https://recharts.org/en-US)
 
 ---
 
-## Install 💾
+## Running Locally 💻
+
+#### Clone Repo 📂
 
 Start of by cloning this repo or downloading the zip file.
 After that open up your terminal and run these commands:
 
-```
-cd ProjectFolder
-npm install
-```
-
-### Run Truffle Blockchain 🔗
-
-Next step is to get the Truffle blockchain running locally
-
-```
-cd ProjectFolder
-truffle develop
+```bash
+cd /path_to_project/My-Dex/blockchain
+pnpm install
 ```
 
-Then inside of the `truffle(develop)` terminal run:
+Then you need to create an `.env` file in `/blockchain` for some values in `hardhat.config.ts`
 
+```json
+ETHERSCAN_API_KEY="API_KEY"
+ALCHEMY_API_KEY="API_KEY"
+SEPOLIA_PRIVATE_KEY="PRIVATE_KEY"
 ```
-migrate --reset
+
+#### Setup Blockchain 🔗
+
+Next step is to get the Hardhat blockchain node running locally
+
+```bash
+cd /path_to_project/My-Dex/blockchain
+pnpm hardhat node
 ```
 
-### Start Client 🌐
+Then test, compile and deploy the contracts
 
-Finally get the client site running on localhost.
+```bash
+pnpm test
+pnpm compile
+
+pnpm hardhat run scripts/deploy_mocks.ts --network localhost        # this deploys the ERC20 tokens
+pnpm hardhat run scripts/seed_wallet.ts --network localhost         # fund wallet with ERC20 tokens
+pnpm hardhat run scripts/deploy_dex.ts --network localhost          # deploy dex using ERC20 tokens
+```
+
+#### Start Client 🌐
+
+Finally get the client site running on localhost with the Hardhat node. We need to change a few things:
+
+Open up `/client/src/utils.ts` and update the function `getPublicClent()` to this:
+
+```typescript
+export function getPublicClient() {
+  return createPublicClient({
+    chain: hardhat,
+    transport: http("http://127.0.0.1:8545"),
+  });
+}
+```
+
+Next open up `/client/src/components/providers` and change **_both_** places `createWalletClient` is used to:
+
+```typescript
+const client = createWalletClient({
+  chain: hardhat,
+  transport: custom(provider),
+});
+```
+
 Open a new Terminal window and run:
 
-```
+```bash
 cd client/
-npm run start
+pnpm install
+pnpm start
 ```
 
-Head over to `http://localhost:3000` and start using MyDex!
+Head over to `http://localhost:5173` and start using TsunamiTrades!
 
-> Note: Make sure to add the Ganache network to your Metamask
+> Note: Make sure to update your Metamask to use the local network as well. [Check out step 5 in the MetaMask Developer docs](https://docs.metamask.io/wallet/how-to/get-started-building/run-devnet/)
 
 ---
 
@@ -95,8 +132,8 @@ Do you have any suggestions for code or additional features you'd like to see im
 
 #### Sepolia Testnet
 
--   **Dex**: `0xe3B970200669bB3258886e0a8E5c97504d93ba31` [Etherscan](https://sepolia.etherscan.io/address/0xe3B970200669bB3258886e0a8E5c97504d93ba31)
--   **Dai**: `0x2487fC2B8c785E57D9752ABFD8E9a6696DEebb1C` [Etherscan](https://sepolia.etherscan.io/address/0x2487fC2B8c785E57D9752ABFD8E9a6696DEebb1C)
--   **Bat**: `0x0DcC9f27a42a19d9b4dd3cf25A591DB030aB820A` [Etherscan](https://sepolia.etherscan.io/address/0x0DcC9f27a42a19d9b4dd3cf25A591DB030aB820A)
--   **Rep**: `0x58dfd3A9C6Cf1072E5A3A9D800E2aD47dD0327c8` [Etherscan](https://sepolia.etherscan.io/address/0x58dfd3A9C6Cf1072E5A3A9D800E2aD47dD0327c8)
--   **Zrx**: `0x6b65E74E68CaF377636e439B71f7D62d71F53cAe` [Etherscan](https://sepolia.etherscan.io/address/0x6b65E74E68CaF377636e439B71f7D62d71F53cAe)
+- **Dex**: `0xe3B970200669bB3258886e0a8E5c97504d93ba31` [Etherscan](https://sepolia.etherscan.io/address/0xe3B970200669bB3258886e0a8E5c97504d93ba31)
+- **Dai**: `0x2487fC2B8c785E57D9752ABFD8E9a6696DEebb1C` [Etherscan](https://sepolia.etherscan.io/address/0x2487fC2B8c785E57D9752ABFD8E9a6696DEebb1C)
+- **Bat**: `0x0DcC9f27a42a19d9b4dd3cf25A591DB030aB820A` [Etherscan](https://sepolia.etherscan.io/address/0x0DcC9f27a42a19d9b4dd3cf25A591DB030aB820A)
+- **Rep**: `0x58dfd3A9C6Cf1072E5A3A9D800E2aD47dD0327c8` [Etherscan](https://sepolia.etherscan.io/address/0x58dfd3A9C6Cf1072E5A3A9D800E2aD47dD0327c8)
+- **Zrx**: `0x6b65E74E68CaF377636e439B71f7D62d71F53cAe` [Etherscan](https://sepolia.etherscan.io/address/0x6b65E74E68CaF377636e439B71f7D62d71F53cAe)
