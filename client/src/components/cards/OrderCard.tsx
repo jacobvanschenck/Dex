@@ -1,57 +1,70 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Order, getDexRead, getRelativeDateFromBlockTimestamp } from '../../utils';
+import { useEffect, useState } from 'react';
+import { getDexRead, getRelativeDateFromBlockTimestamp } from '../../utils';
 import { useDexStore } from '../../store';
 import Pill from '../Pill';
 import { MY_ORDERS, ALL_ORDERS, SIDE, TICKER } from '../../consts';
 import { PublicClient, formatEther, pad } from 'viem';
 import { SyncLoader } from 'react-spinners';
+import { TokenType } from '../../types';
 
 const BUY = 'BUY';
 const SELL = 'SELL';
+
+export type Order = {
+  amount: string;
+  filled: string;
+  date: string;
+  price: string;
+  trader: string;
+};
+export type Orders = {
+  BUY: Array<Order>;
+  SELL: Array<Order>;
+};
+
+export async function getOrders(selectedToken: TokenType, client: PublicClient, setOrders: (orders: Orders) => void) {
+  {
+    if (!selectedToken) return;
+    const dex = await getDexRead(client);
+    const buyOrders = await dex.read.getOrders([pad(TICKER[selectedToken], { dir: 'right' }), SIDE.BUY]);
+    const sellOrders = await dex.read.getOrders([pad(TICKER[selectedToken], { dir: 'right' }), SIDE.SELL]);
+    setOrders({
+      BUY: buyOrders.map((o) => {
+        return {
+          amount: formatEther(o.amount),
+          filled: formatEther(o.filled),
+          date: getRelativeDateFromBlockTimestamp(o.date),
+          price: o.price.toString(),
+          trader: o.trader,
+        };
+      }),
+      SELL: sellOrders.map((o) => {
+        return {
+          amount: formatEther(o.amount),
+          filled: o.filled.toString(),
+          date: getRelativeDateFromBlockTimestamp(o.date),
+          price: o.price.toString(),
+          trader: o.trader,
+        };
+      }),
+    });
+  }
+}
 
 export default function OrderCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);
   const publicClient = useDexStore((state) => state.publicClient);
   const account = useDexStore((state) => state.account);
+  const orders = useDexStore((state) => state.orders);
+  const setOrders = useDexStore((state) => state.setOrders);
 
-  const [orders, setOrders] = useState<{ BUY: Array<Order>; SELL: Array<Order> }>();
   const [side, setSide] = useState<typeof BUY | typeof SELL>(BUY);
   const [orderFilter, setOrderFilter] = useState(ALL_ORDERS);
 
-  const getOrders = useCallback(
-    async (client: PublicClient) => {
-      if (!selectedToken) return;
-      const dex = await getDexRead(client);
-      const buyOrders = await dex.read.getOrders([pad(TICKER[selectedToken], { dir: 'right' }), SIDE.BUY]);
-      const sellOrders = await dex.read.getOrders([pad(TICKER[selectedToken], { dir: 'right' }), SIDE.SELL]);
-      setOrders({
-        BUY: buyOrders.map((o) => {
-          return {
-            amount: formatEther(o.amount),
-            filled: formatEther(o.filled),
-            date: getRelativeDateFromBlockTimestamp(o.date),
-            price: o.price.toString(),
-            trader: o.trader,
-          };
-        }),
-        SELL: sellOrders.map((o) => {
-          return {
-            amount: formatEther(o.amount),
-            filled: o.filled.toString(),
-            date: getRelativeDateFromBlockTimestamp(o.date),
-            price: o.price.toString(),
-            trader: o.trader,
-          };
-        }),
-      });
-    },
-    [selectedToken],
-  );
-
   useEffect(() => {
     if (!publicClient) return;
-    getOrders(publicClient);
-  }, [publicClient, getOrders]);
+    getOrders(selectedToken, publicClient, setOrders);
+  }, [publicClient, selectedToken, setOrders]);
 
   if (!orders)
     return (

@@ -8,6 +8,7 @@ import { pad, parseEther } from 'viem/utils';
 import { sepolia } from 'viem/chains';
 import { displayToast } from '../Notifications';
 import { getBalances } from '../providers/WalletProvider';
+import { getOrders } from './OrderCard';
 
 export default function TradeCard() {
   const selectedToken = useDexStore((state) => state.selectedToken);
@@ -16,6 +17,7 @@ export default function TradeCard() {
   const walletClient = useDexStore((state) => state.walletClient);
   const setBalances = useDexStore((state) => state.setBalances);
   const balances = useDexStore((state) => state.balances);
+  const setOrders = useDexStore((state) => state.setOrders);
 
   const [side, setSide] = useState(BUY);
   const [type, setType] = useState(LIMIT);
@@ -54,11 +56,12 @@ export default function TradeCard() {
       if (receipt) displayToast('Limit order created', { type: 'success' });
 
       setBalances(await getBalances(account, publicClient));
+      getOrders(selectedToken, publicClient, setOrders);
     } catch (err) {
       console.error(err);
       displayToast('Something went wrong', { type: 'error' });
     }
-  }, [account, publicClient, selectedToken, side, amount, price, setBalances, walletClient, balances]);
+  }, [account, publicClient, selectedToken, side, amount, price, setBalances, walletClient, balances, setOrders]);
 
   const createMarketOrder = useCallback(async () => {
     if (!selectedToken || !account || !walletClient || !balances) return;
@@ -89,14 +92,15 @@ export default function TradeCard() {
 
       const hash = await walletClient.writeContract(request);
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
-      if (receipt) displayToast('Limit order created', { type: 'success' });
+      if (receipt) displayToast('Market order created', { type: 'success' });
 
       setBalances(await getBalances(account, publicClient));
+      getOrders(selectedToken, publicClient, setOrders);
     } catch (err) {
       console.error(err);
       displayToast('Something went wrong', { type: 'error' });
     }
-  }, [account, balances, publicClient, walletClient, setBalances, selectedToken, side, amount]);
+  }, [account, balances, publicClient, walletClient, setBalances, selectedToken, side, amount, setOrders]);
 
   return (
     <div className="flex flex-col gap-3 justify-between w-full">
