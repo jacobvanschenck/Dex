@@ -96,28 +96,28 @@ Head over to `http://localhost:5173` and start using TsunamiTrades!
 
 ### Connects with Metamask
 
-![ConnectToMetamask GIF](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/ConnectToMetamask.gif)
+![connect_wallet GIF](https://raw.githubusercontent.com/jacobvanschenck/My-Dex/master/GIFs/connect_wallet.gif)
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ### Deposit and Withdraw | Shows dApp approving Dex contract to deposit and withdraw coins from wallet
 
-![UseWallet GIF](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/UseWallet.gif)
+![deposit_tokens GIF](https://raw.githubusercontent.com/jacobvanschenck/My-Dex/master/GIFs/deposit-tokens.gif)
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ### Create Limit Order
 
-![CreateLimitOrder GIF](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/CreateLimitOrder.gif)
+![create_limit_order GIF](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/create_limit_order.gif)
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ### Create Market Order | Shows trader filling in limit order and trade appearing on dApp
 
-![CreateMarketOrder GIF](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/CreateMarketOrder.gif)
+![create_market_order GIF](https://raw.githubusercontent.com/jacobvanschenck/Dex/master/GIFs/create_market_order.gif)
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
